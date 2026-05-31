@@ -141,13 +141,9 @@ export function subscribeToChecklist(
   onError?: (error: Error) => void,
 ): () => void {
   if (!isFirebaseConfigured) {
-    const read = () => {
-      const found = readLocalChecklists().find((c) => c.id === checklistId) ?? null;
-      onData(found);
-    };
-    read();
-    const interval = window.setInterval(read, 500);
-    return () => window.clearInterval(interval);
+    const found = readLocalChecklists().find((c) => c.id === checklistId) ?? null;
+    onData(found);
+    return () => {};
   }
 
   return onSnapshot(

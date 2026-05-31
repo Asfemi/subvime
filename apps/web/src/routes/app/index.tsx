@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Navbar } from "@/components/landing/navbar";
 import { Footer } from "@/components/landing/shared";
 import { TaskInputForm } from "@/components/subvime/checklist-editor";
+import { LlmInstructionsPanel } from "@/components/subvime/llm-instructions-panel";
 import {
   createChecklistId,
   generateStepsFromTaskInput,
@@ -90,6 +91,7 @@ function AppHomePage() {
         <h1 className="mb-6 text-lg font-medium">Checklists</h1>
 
         <div className="mb-8 space-y-3">
+          <LlmInstructionsPanel />
           <TaskInputForm onSubmit={handleCreate} isLoading={creating} />
           <label className="block cursor-pointer py-2 text-center text-xs text-white/40 hover:text-white/60">
             Import JSON

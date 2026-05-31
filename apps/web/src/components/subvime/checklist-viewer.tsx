@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, type CSSProperties } from "react";
 import { Check } from "lucide-react";
 import type { ChecklistStep } from "@/types/checklist";
-import { getStepProgress, toggleStepCompleted } from "@/lib/checklist-utils";
+import { isStepChecked, toggleStepCompleted } from "@/lib/checklist-utils";
 
 interface ChecklistViewerProps {
   steps: ChecklistStep[];
@@ -13,15 +13,12 @@ export function ChecklistViewer({ steps, onChange }: ChecklistViewerProps) {
     return <p className="py-8 text-center text-sm text-white/40">No items yet.</p>;
   }
 
+  const toggle = (stepId: string) => onChange(toggleStepCompleted(steps, stepId));
+
   return (
     <ul className="divide-y divide-white/5">
       {steps.map((step) => (
-        <ChecklistItem
-          key={step.id}
-          step={step}
-          depth={0}
-          onToggle={(stepId) => onChange(toggleStepCompleted(steps, stepId))}
-        />
+        <ChecklistItem key={step.id} step={step} depth={0} onToggle={toggle} />
       ))}
     </ul>
   );
@@ -36,17 +33,17 @@ interface ChecklistItemProps {
 function ChecklistItem({ step, depth, onToggle }: ChecklistItemProps) {
   const [open, setOpen] = useState(false);
   const hasChildren = step.children.length > 0;
-  const progress = getStepProgress(step);
-  const allDone = hasChildren && progress.completed === progress.total;
+  const checked = isStepChecked(step);
+  const pad = { paddingLeft: `${depth * 16 + 12}px`, paddingRight: 12 };
 
   if (!hasChildren) {
     return (
       <li>
         <ChecklistRow
-          depth={depth}
+          style={pad}
           title={step.title}
           notes={step.notes}
-          checked={!!step.completed}
+          checked={checked}
           onCheck={() => onToggle(step.id)}
         />
       </li>
@@ -55,23 +52,29 @@ function ChecklistItem({ step, depth, onToggle }: ChecklistItemProps) {
 
   return (
     <li>
-      <button
-        type="button"
-        onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-start gap-3 py-3 text-left transition-colors hover:bg-white/[0.02]"
-        style={{ paddingLeft: `${depth * 16 + 12}px`, paddingRight: 12 }}
+      <div
+        className="flex items-start gap-3 py-3 transition-colors hover:bg-white/[0.02]"
+        style={pad}
       >
-        <span
-          className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
-            allDone
+        <button
+          type="button"
+          onClick={() => onToggle(step.id)}
+          aria-label={checked ? "Mark incomplete" : "Mark complete"}
+          className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${
+            checked
               ? "border-accent bg-accent text-white"
-              : "border-white/25 bg-transparent"
+              : "border-white/25 bg-transparent hover:border-white/40"
           }`}
         >
-          {allDone && <Check size={10} strokeWidth={3} />}
-        </span>
-        <span className="min-w-0 flex-1">
-          <span className={`text-sm ${allDone ? "text-white/40 line-through" : "text-white/90"}`}>
+          {checked && <Check size={10} strokeWidth={3} />}
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          className="min-w-0 flex-1 text-left"
+        >
+          <span className={`text-sm ${checked ? "text-white/40 line-through" : "text-white/90"}`}>
             {step.title}
           </span>
           {step.notes && (
@@ -79,19 +82,22 @@ function ChecklistItem({ step, depth, onToggle }: ChecklistItemProps) {
               {step.notes}
             </span>
           )}
-        </span>
-        <span className="mt-0.5 shrink-0 text-xs text-white/30">{open ? "−" : "+"}</span>
-      </button>
+        </button>
+
+        <button
+          type="button"
+          onClick={() => setOpen((v) => !v)}
+          aria-label={open ? "Collapse sub-tasks" : "Expand sub-tasks"}
+          className="mt-0.5 shrink-0 px-1 text-xs text-white/30 hover:text-white/60"
+        >
+          {open ? "−" : "+"}
+        </button>
+      </div>
 
       {open && (
         <ul className="divide-y divide-white/5 border-t border-white/5">
           {step.children.map((child) => (
-            <ChecklistItem
-              key={child.id}
-              step={child}
-              depth={depth + 1}
-              onToggle={onToggle}
-            />
+            <ChecklistItem key={child.id} step={child} depth={depth + 1} onToggle={onToggle} />
           ))}
         </ul>
       )}
@@ -100,13 +106,13 @@ function ChecklistItem({ step, depth, onToggle }: ChecklistItemProps) {
 }
 
 function ChecklistRow({
-  depth,
+  style,
   title,
   notes,
   checked,
   onCheck,
 }: {
-  depth: number;
+  style: CSSProperties;
   title: string;
   notes?: string;
   checked: boolean;
@@ -115,7 +121,7 @@ function ChecklistRow({
   return (
     <label
       className="flex cursor-pointer items-start gap-3 py-3 transition-colors hover:bg-white/[0.02]"
-      style={{ paddingLeft: `${depth * 16 + 12}px`, paddingRight: 12 }}
+      style={style}
     >
       <button
         type="button"

@@ -209,6 +209,10 @@ export function getStepProgress(step: ChecklistStep): {
   completed: number;
   total: number;
 } {
+  if (step.completed && step.children.length > 0) {
+    return { completed: 1, total: 1 };
+  }
+
   if (step.children.length === 0) {
     return { completed: step.completed ? 1 : 0, total: 1 };
   }
@@ -230,7 +234,48 @@ export function toggleStepCompleted(
   stepId: string,
 ): ChecklistStep[] {
   return updateStepInTree(steps, stepId, (step) => {
-    if (step.children.length > 0) return step;
-    return { ...step, completed: !step.completed };
+    const nextCompleted = !isStepChecked(step);
+    return setStepCompletedRecursive(step, nextCompleted);
   });
+}
+
+export function isStepChecked(step: ChecklistStep): boolean {
+  if (step.children.length === 0) return !!step.completed;
+  return !!step.completed;
+}
+
+function setStepCompletedRecursive(
+  step: ChecklistStep,
+  completed: boolean,
+): ChecklistStep {
+  return {
+    ...step,
+    completed,
+    children: step.children.map((child) => setStepCompletedRecursive(child, completed)),
+  };
+}
+
+/** Export in LLM-friendly format (tasks, not children). */
+export function exportChecklistLlmJson(
+  checklist: Pick<Checklist, "id" | "title" | "description" | "steps">,
+): string {
+  const toLlmTask = (step: ChecklistStep): Record<string, unknown> => ({
+    id: step.id,
+    title: step.title,
+    completed: !!step.completed,
+    ...(step.notes ? { notes: step.notes } : {}),
+    tasks: step.children.map(toLlmTask),
+  });
+
+  return JSON.stringify(
+    {
+      id: checklist.id,
+      title: checklist.title,
+      ...(checklist.description ? { description: checklist.description } : {}),
+      version: "1.0",
+      tasks: checklist.steps.map(toLlmTask),
+    },
+    null,
+    2,
+  );
 }
