@@ -143,12 +143,15 @@ export function countChecklistSteps(steps: ChecklistStep[]): number {
 export function cloneChecklistFromTemplate(
   template: Pick<Checklist, "title" | "description" | "steps">,
   userId: string,
+  options?: { preserveCompletion?: boolean },
 ): Checklist {
+  const preserveCompletion = options?.preserveCompletion ?? false;
+
   const cloneSteps = (items: ChecklistStep[]): ChecklistStep[] =>
     items.map((step, index) => ({
       ...step,
       id: createStepId(),
-      completed: false,
+      completed: preserveCompletion ? !!step.completed : false,
       order: index,
       children: cloneSteps(step.children),
     }));

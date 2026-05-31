@@ -34,6 +34,7 @@ import { Route as InvitationsAcceptRouteImport } from './routes/invitations.acce
 import { Route as InternalDomainCheckRouteImport } from './routes/internal/domain-check'
 import { Route as DocsSplatRouteImport } from './routes/docs/$'
 import { Route as CliLoginRouteImport } from './routes/cli.login'
+import { Route as CShareIdRouteImport } from './routes/c/$shareId'
 import { Route as AppChecklistIdRouteImport } from './routes/app/$checklistId'
 import { Route as ApiSearchRouteImport } from './routes/api/search'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
@@ -70,6 +71,7 @@ import { Route as ApiCliCompleteRouteImport } from './routes/api/cli/complete'
 import { Route as ApiCheckoutPolarRouteImport } from './routes/api/checkout/polar'
 import { Route as ApiCheckoutPaystackVerifyRouteImport } from './routes/api/checkout/paystack-verify'
 import { Route as ApiCheckoutPaystackRouteImport } from './routes/api/checkout/paystack'
+import { Route as ApiChecklistsShareRouteImport } from './routes/api/checklists/share'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 import { Route as ApiAdminUsersRouteImport } from './routes/api/admin/users'
 import { Route as ApiAdminTunnelsRouteImport } from './routes/api/admin/tunnels'
@@ -95,6 +97,7 @@ import { Route as ApiOrgSlugSubdomainsIndexRouteImport } from './routes/api/$org
 import { Route as ApiOrgSlugDomainsIndexRouteImport } from './routes/api/$orgSlug/domains/index'
 import { Route as ApiSubscriptionsOrgSlugCancelRouteImport } from './routes/api/subscriptions/$orgSlug/cancel'
 import { Route as ApiCliLoginStatusRouteImport } from './routes/api/cli/login/status'
+import { Route as ApiChecklistsShareShareIdRouteImport } from './routes/api/checklists/share.$shareId'
 import { Route as ApiAdminUsersUserIdRouteImport } from './routes/api/admin/users.$userId'
 import { Route as ApiAdminOrganizationsSlugRouteImport } from './routes/api/admin/organizations.$slug'
 import { Route as ApiOrgSlugTunnelsTunnelIdRouteImport } from './routes/api/$orgSlug/tunnels/$tunnelId'
@@ -233,6 +236,11 @@ const DocsSplatRoute = DocsSplatRouteImport.update({
 const CliLoginRoute = CliLoginRouteImport.update({
   id: '/cli/login',
   path: '/cli/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CShareIdRoute = CShareIdRouteImport.update({
+  id: '/c/$shareId',
+  path: '/c/$shareId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AppChecklistIdRoute = AppChecklistIdRouteImport.update({
@@ -419,6 +427,11 @@ const ApiCheckoutPaystackRoute = ApiCheckoutPaystackRouteImport.update({
   path: '/api/checkout/paystack',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChecklistsShareRoute = ApiChecklistsShareRouteImport.update({
+  id: '/api/checklists/share',
+  path: '/api/checklists/share',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -547,6 +560,12 @@ const ApiCliLoginStatusRoute = ApiCliLoginStatusRouteImport.update({
   path: '/status',
   getParentRoute: () => ApiCliLoginRoute,
 } as any)
+const ApiChecklistsShareShareIdRoute =
+  ApiChecklistsShareShareIdRouteImport.update({
+    id: '/$shareId',
+    path: '/$shareId',
+    getParentRoute: () => ApiChecklistsShareRoute,
+  } as any)
 const ApiAdminUsersUserIdRoute = ApiAdminUsersUserIdRouteImport.update({
   id: '/$userId',
   path: '/$userId',
@@ -662,6 +681,7 @@ export interface FileRoutesByFullPath {
   '/api/health': typeof ApiHealthRoute
   '/api/search': typeof ApiSearchRoute
   '/app/$checklistId': typeof AppChecklistIdRoute
+  '/c/$shareId': typeof CShareIdRoute
   '/cli/login': typeof CliLoginRoute
   '/docs/$': typeof DocsSplatRoute
   '/internal/domain-check': typeof InternalDomainCheckRoute
@@ -688,6 +708,7 @@ export interface FileRoutesByFullPath {
   '/api/admin/tunnels': typeof ApiAdminTunnelsRoute
   '/api/admin/users': typeof ApiAdminUsersRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/checklists/share': typeof ApiChecklistsShareRouteWithChildren
   '/api/checkout/paystack': typeof ApiCheckoutPaystackRoute
   '/api/checkout/paystack-verify': typeof ApiCheckoutPaystackVerifyRoute
   '/api/checkout/polar': typeof ApiCheckoutPolarRoute
@@ -721,6 +742,7 @@ export interface FileRoutesByFullPath {
   '/api/$orgSlug/tunnels/$tunnelId': typeof ApiOrgSlugTunnelsTunnelIdRouteWithChildren
   '/api/admin/organizations/$slug': typeof ApiAdminOrganizationsSlugRoute
   '/api/admin/users/$userId': typeof ApiAdminUsersUserIdRoute
+  '/api/checklists/share/$shareId': typeof ApiChecklistsShareShareIdRoute
   '/api/cli/login/status': typeof ApiCliLoginStatusRoute
   '/api/subscriptions/$orgSlug/cancel': typeof ApiSubscriptionsOrgSlugCancelRoute
   '/api/$orgSlug/domains': typeof ApiOrgSlugDomainsIndexRoute
@@ -762,6 +784,7 @@ export interface FileRoutesByTo {
   '/api/health': typeof ApiHealthRoute
   '/api/search': typeof ApiSearchRoute
   '/app/$checklistId': typeof AppChecklistIdRoute
+  '/c/$shareId': typeof CShareIdRoute
   '/cli/login': typeof CliLoginRoute
   '/docs/$': typeof DocsSplatRoute
   '/internal/domain-check': typeof InternalDomainCheckRoute
@@ -788,6 +811,7 @@ export interface FileRoutesByTo {
   '/api/admin/tunnels': typeof ApiAdminTunnelsRoute
   '/api/admin/users': typeof ApiAdminUsersRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/checklists/share': typeof ApiChecklistsShareRouteWithChildren
   '/api/checkout/paystack': typeof ApiCheckoutPaystackRoute
   '/api/checkout/paystack-verify': typeof ApiCheckoutPaystackVerifyRoute
   '/api/checkout/polar': typeof ApiCheckoutPolarRoute
@@ -821,6 +845,7 @@ export interface FileRoutesByTo {
   '/api/$orgSlug/tunnels/$tunnelId': typeof ApiOrgSlugTunnelsTunnelIdRouteWithChildren
   '/api/admin/organizations/$slug': typeof ApiAdminOrganizationsSlugRoute
   '/api/admin/users/$userId': typeof ApiAdminUsersUserIdRoute
+  '/api/checklists/share/$shareId': typeof ApiChecklistsShareShareIdRoute
   '/api/cli/login/status': typeof ApiCliLoginStatusRoute
   '/api/subscriptions/$orgSlug/cancel': typeof ApiSubscriptionsOrgSlugCancelRoute
   '/api/$orgSlug/domains': typeof ApiOrgSlugDomainsIndexRoute
@@ -865,6 +890,7 @@ export interface FileRoutesById {
   '/api/health': typeof ApiHealthRoute
   '/api/search': typeof ApiSearchRoute
   '/app/$checklistId': typeof AppChecklistIdRoute
+  '/c/$shareId': typeof CShareIdRoute
   '/cli/login': typeof CliLoginRoute
   '/docs/$': typeof DocsSplatRoute
   '/internal/domain-check': typeof InternalDomainCheckRoute
@@ -891,6 +917,7 @@ export interface FileRoutesById {
   '/api/admin/tunnels': typeof ApiAdminTunnelsRoute
   '/api/admin/users': typeof ApiAdminUsersRouteWithChildren
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/checklists/share': typeof ApiChecklistsShareRouteWithChildren
   '/api/checkout/paystack': typeof ApiCheckoutPaystackRoute
   '/api/checkout/paystack-verify': typeof ApiCheckoutPaystackVerifyRoute
   '/api/checkout/polar': typeof ApiCheckoutPolarRoute
@@ -924,6 +951,7 @@ export interface FileRoutesById {
   '/api/$orgSlug/tunnels/$tunnelId': typeof ApiOrgSlugTunnelsTunnelIdRouteWithChildren
   '/api/admin/organizations/$slug': typeof ApiAdminOrganizationsSlugRoute
   '/api/admin/users/$userId': typeof ApiAdminUsersUserIdRoute
+  '/api/checklists/share/$shareId': typeof ApiChecklistsShareShareIdRoute
   '/api/cli/login/status': typeof ApiCliLoginStatusRoute
   '/api/subscriptions/$orgSlug/cancel': typeof ApiSubscriptionsOrgSlugCancelRoute
   '/api/$orgSlug/domains/': typeof ApiOrgSlugDomainsIndexRoute
@@ -969,6 +997,7 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/search'
     | '/app/$checklistId'
+    | '/c/$shareId'
     | '/cli/login'
     | '/docs/$'
     | '/internal/domain-check'
@@ -995,6 +1024,7 @@ export interface FileRouteTypes {
     | '/api/admin/tunnels'
     | '/api/admin/users'
     | '/api/auth/$'
+    | '/api/checklists/share'
     | '/api/checkout/paystack'
     | '/api/checkout/paystack-verify'
     | '/api/checkout/polar'
@@ -1028,6 +1058,7 @@ export interface FileRouteTypes {
     | '/api/$orgSlug/tunnels/$tunnelId'
     | '/api/admin/organizations/$slug'
     | '/api/admin/users/$userId'
+    | '/api/checklists/share/$shareId'
     | '/api/cli/login/status'
     | '/api/subscriptions/$orgSlug/cancel'
     | '/api/$orgSlug/domains'
@@ -1069,6 +1100,7 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/search'
     | '/app/$checklistId'
+    | '/c/$shareId'
     | '/cli/login'
     | '/docs/$'
     | '/internal/domain-check'
@@ -1095,6 +1127,7 @@ export interface FileRouteTypes {
     | '/api/admin/tunnels'
     | '/api/admin/users'
     | '/api/auth/$'
+    | '/api/checklists/share'
     | '/api/checkout/paystack'
     | '/api/checkout/paystack-verify'
     | '/api/checkout/polar'
@@ -1128,6 +1161,7 @@ export interface FileRouteTypes {
     | '/api/$orgSlug/tunnels/$tunnelId'
     | '/api/admin/organizations/$slug'
     | '/api/admin/users/$userId'
+    | '/api/checklists/share/$shareId'
     | '/api/cli/login/status'
     | '/api/subscriptions/$orgSlug/cancel'
     | '/api/$orgSlug/domains'
@@ -1171,6 +1205,7 @@ export interface FileRouteTypes {
     | '/api/health'
     | '/api/search'
     | '/app/$checklistId'
+    | '/c/$shareId'
     | '/cli/login'
     | '/docs/$'
     | '/internal/domain-check'
@@ -1197,6 +1232,7 @@ export interface FileRouteTypes {
     | '/api/admin/tunnels'
     | '/api/admin/users'
     | '/api/auth/$'
+    | '/api/checklists/share'
     | '/api/checkout/paystack'
     | '/api/checkout/paystack-verify'
     | '/api/checkout/polar'
@@ -1230,6 +1266,7 @@ export interface FileRouteTypes {
     | '/api/$orgSlug/tunnels/$tunnelId'
     | '/api/admin/organizations/$slug'
     | '/api/admin/users/$userId'
+    | '/api/checklists/share/$shareId'
     | '/api/cli/login/status'
     | '/api/subscriptions/$orgSlug/cancel'
     | '/api/$orgSlug/domains/'
@@ -1262,6 +1299,7 @@ export interface RootRouteChildren {
   ApiHealthRoute: typeof ApiHealthRoute
   ApiSearchRoute: typeof ApiSearchRoute
   AppChecklistIdRoute: typeof AppChecklistIdRoute
+  CShareIdRoute: typeof CShareIdRoute
   CliLoginRoute: typeof CliLoginRoute
   DocsSplatRoute: typeof DocsSplatRoute
   InternalDomainCheckRoute: typeof InternalDomainCheckRoute
@@ -1282,6 +1320,7 @@ export interface RootRouteChildren {
   ApiAdminTunnelsRoute: typeof ApiAdminTunnelsRoute
   ApiAdminUsersRoute: typeof ApiAdminUsersRouteWithChildren
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiChecklistsShareRoute: typeof ApiChecklistsShareRouteWithChildren
   ApiCheckoutPaystackRoute: typeof ApiCheckoutPaystackRoute
   ApiCheckoutPaystackVerifyRoute: typeof ApiCheckoutPaystackVerifyRoute
   ApiCheckoutPolarRoute: typeof ApiCheckoutPolarRoute
@@ -1488,6 +1527,13 @@ declare module '@tanstack/react-router' {
       path: '/cli/login'
       fullPath: '/cli/login'
       preLoaderRoute: typeof CliLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/c/$shareId': {
+      id: '/c/$shareId'
+      path: '/c/$shareId'
+      fullPath: '/c/$shareId'
+      preLoaderRoute: typeof CShareIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/app/$checklistId': {
@@ -1742,6 +1788,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiCheckoutPaystackRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/checklists/share': {
+      id: '/api/checklists/share'
+      path: '/api/checklists/share'
+      fullPath: '/api/checklists/share'
+      preLoaderRoute: typeof ApiChecklistsShareRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -1916,6 +1969,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/api/cli/login/status'
       preLoaderRoute: typeof ApiCliLoginStatusRouteImport
       parentRoute: typeof ApiCliLoginRoute
+    }
+    '/api/checklists/share/$shareId': {
+      id: '/api/checklists/share/$shareId'
+      path: '/$shareId'
+      fullPath: '/api/checklists/share/$shareId'
+      preLoaderRoute: typeof ApiChecklistsShareShareIdRouteImport
+      parentRoute: typeof ApiChecklistsShareRoute
     }
     '/api/admin/users/$userId': {
       id: '/api/admin/users/$userId'
@@ -2127,6 +2187,17 @@ const ApiAdminUsersRouteWithChildren = ApiAdminUsersRoute._addFileChildren(
   ApiAdminUsersRouteChildren,
 )
 
+interface ApiChecklistsShareRouteChildren {
+  ApiChecklistsShareShareIdRoute: typeof ApiChecklistsShareShareIdRoute
+}
+
+const ApiChecklistsShareRouteChildren: ApiChecklistsShareRouteChildren = {
+  ApiChecklistsShareShareIdRoute: ApiChecklistsShareShareIdRoute,
+}
+
+const ApiChecklistsShareRouteWithChildren =
+  ApiChecklistsShareRoute._addFileChildren(ApiChecklistsShareRouteChildren)
+
 interface ApiCliLoginRouteChildren {
   ApiCliLoginStatusRoute: typeof ApiCliLoginStatusRoute
 }
@@ -2190,6 +2261,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiHealthRoute: ApiHealthRoute,
   ApiSearchRoute: ApiSearchRoute,
   AppChecklistIdRoute: AppChecklistIdRoute,
+  CShareIdRoute: CShareIdRoute,
   CliLoginRoute: CliLoginRoute,
   DocsSplatRoute: DocsSplatRoute,
   InternalDomainCheckRoute: InternalDomainCheckRoute,
@@ -2210,6 +2282,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiAdminTunnelsRoute: ApiAdminTunnelsRoute,
   ApiAdminUsersRoute: ApiAdminUsersRouteWithChildren,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiChecklistsShareRoute: ApiChecklistsShareRouteWithChildren,
   ApiCheckoutPaystackRoute: ApiCheckoutPaystackRoute,
   ApiCheckoutPaystackVerifyRoute: ApiCheckoutPaystackVerifyRoute,
   ApiCheckoutPolarRoute: ApiCheckoutPolarRoute,

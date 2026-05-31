@@ -1,9 +1,23 @@
 import { useState } from "react";
-import { LLM_JSON_INSTRUCTIONS, LLM_JSON_PROMPT_TEMPLATE } from "@/lib/llm-json-instructions";
+import {
+  LLM_AI_AGENT_INSTRUCTIONS,
+  LLM_AI_AGENT_PROMPT_TEMPLATE,
+  LLM_JSON_INSTRUCTIONS,
+  LLM_JSON_PROMPT_TEMPLATE,
+} from "@/lib/llm-json-instructions";
 
 export function LlmInstructionsPanel() {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const shareApiUrl =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/api/checklists/share`
+      : "/api/checklists/share";
+
+  const aiAgentInstructions = LLM_AI_AGENT_INSTRUCTIONS.replace(
+    /https:\/\/subvima\.dev/g,
+    typeof window !== "undefined" ? window.location.origin : "https://subvima.dev",
+  );
 
   const copy = async (text: string, label: string) => {
     await navigator.clipboard.writeText(text);
@@ -26,19 +40,24 @@ export function LlmInstructionsPanel() {
         <div className="mt-3 space-y-3">
           <p className="text-xs leading-relaxed text-white/40">
             Copy these instructions so ChatGPT, Claude, Gemini, or DeepSeek return nested
-            checklists SubVime can import. Each task uses{" "}
-            <code className="text-white/55">id</code>, <code className="text-white/55">title</code>,{" "}
-            <code className="text-white/55">completed</code>, and recursive{" "}
-            <code className="text-white/55">tasks</code>.
+            checklists SubVime can import — or publish a live preview link via{" "}
+            <code className="text-white/55">{shareApiUrl}</code>.
           </p>
 
           <div className="flex flex-wrap gap-2">
             <button
               type="button"
+              onClick={() => void copy(aiAgentInstructions, "agent")}
+              className="rounded border border-accent/20 bg-accent/5 px-3 py-1.5 text-xs text-white/80 hover:border-accent/40 hover:text-white"
+            >
+              {copied === "agent" ? "Copied" : "Copy AI agent guide"}
+            </button>
+            <button
+              type="button"
               onClick={() => void copy(LLM_JSON_INSTRUCTIONS, "full")}
               className="rounded border border-white/10 px-3 py-1.5 text-xs text-white/70 hover:border-white/20 hover:text-white"
             >
-              {copied === "full" ? "Copied" : "Copy full guide"}
+              {copied === "full" ? "Copied" : "Copy JSON format"}
             </button>
             <button
               type="button"
@@ -51,6 +70,18 @@ export function LlmInstructionsPanel() {
               className="rounded border border-white/10 px-3 py-1.5 text-xs text-white/70 hover:border-white/20 hover:text-white"
             >
               {copied === "prompt" ? "Copied" : "Copy example prompt"}
+            </button>
+            <button
+              type="button"
+              onClick={() =>
+                void copy(
+                  LLM_AI_AGENT_PROMPT_TEMPLATE.replace("{{GOAL}}", "start YouTube automation"),
+                  "agent-prompt",
+                )
+              }
+              className="rounded border border-white/10 px-3 py-1.5 text-xs text-white/70 hover:border-white/20 hover:text-white"
+            >
+              {copied === "agent-prompt" ? "Copied" : "Copy agent prompt"}
             </button>
           </div>
 

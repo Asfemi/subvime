@@ -107,6 +107,78 @@ Use this schema when asking an LLM (ChatGPT, Claude, Gemini, DeepSeek, etc.) to 
 Import the JSON in SubVime via **Import JSON** on the app home page.
 `;
 
+export const LLM_AI_AGENT_INSTRUCTIONS = `# SubVime AI agent — create shareable checklist links
+
+When a user asks you to break down a goal, generate a nested checklist AND publish it to SubVime so they get a link to an interactive preview.
+
+## Workflow
+
+1. Build the checklist JSON (see SubVime JSON format below).
+2. \`POST\` the JSON to SubVime's share API.
+3. Send the user the \`url\` from the response. That page lets them expand nested steps, check items off, and save the checklist to their account.
+
+## Share API
+
+- **Create preview:** \`POST https://subvima.dev/api/checklists/share\`
+- **Content-Type:** \`application/json\`
+- **Body:** the checklist JSON (\`title\`, optional \`description\`, \`tasks\` array)
+- **Response:** \`{ "url": "https://subvima.dev/c/...", "shareId", "title", "stepCount" }\`
+
+### Example request
+
+\`\`\`http
+POST /api/checklists/share HTTP/1.1
+Host: subvima.dev
+Content-Type: application/json
+
+{
+  "title": "YouTube Automation",
+  "description": "Launch and automate a YouTube channel",
+  "tasks": [
+    {
+      "id": "strategy",
+      "title": "Define niche and strategy",
+      "completed": false,
+      "tasks": [
+        {
+          "id": "research",
+          "title": "Research competitors",
+          "completed": false,
+          "tasks": []
+        }
+      ]
+    }
+  ]
+}
+\`\`\`
+
+### Example response
+
+\`\`\`json
+{
+  "shareId": "abc123xyz",
+  "url": "https://subvima.dev/c/abc123xyz",
+  "previewUrl": "https://subvima.dev/c/abc123xyz",
+  "title": "YouTube Automation",
+  "stepCount": 2
+}
+\`\`\`
+
+Tell the user: **"Here's your checklist: [url]. Open it to see every step and sub-step, then save it to track progress."**
+
+## API discovery
+
+- \`GET https://subvima.dev/api/checklists/share\` — machine-readable API docs
+- \`GET https://subvima.dev/api/checklists/share/:shareId\` — fetch checklist JSON by id
+
+## Checklist JSON rules (summary)
+
+- Root: \`title\` + \`tasks\` (required), optional \`description\`
+- Each task: \`{ "id", "title", "completed", "tasks" }\` — recursive
+- Nest phases → steps → sub-steps as deep as useful
+- Set all \`completed\` to \`false\`
+`;
+
 export const LLM_JSON_PROMPT_TEMPLATE = `Break down "{{GOAL}}" into a nested checklist using the SubVime JSON format.
 
 Requirements:
@@ -125,3 +197,9 @@ Example root shape:
   "version": "1.0",
   "tasks": [ ... ]
 }`;
+
+export const LLM_AI_AGENT_PROMPT_TEMPLATE = `The user wants help with: {{GOAL}}
+
+1. Create a detailed nested SubVime checklist JSON (title, description, tasks with 2–3+ levels).
+2. POST it to https://subvima.dev/api/checklists/share with Content-Type application/json.
+3. Reply with the url from the API response so they can open an interactive preview on SubVime.`;

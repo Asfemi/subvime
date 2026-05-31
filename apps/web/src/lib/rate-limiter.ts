@@ -184,4 +184,7 @@ export const rateLimiters = {
 
     general: (key: string) =>
         rateLimit(key, { identifier: "general", maxRequests: 100, windowSeconds: 60 }),
+
+    checklistShare: (key: string) =>
+        rateLimit(key, { identifier: "checklist-share", maxRequests: 30, windowSeconds: 60 }),
 };
