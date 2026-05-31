@@ -30,25 +30,25 @@ export const Route = createRootRoute({
         content: "width=device-width, initial-scale=1",
       },
       {
-        title: "Subvima - an open source alternative to ngrok",
+        title: "SubVime — Break complex tasks into simple subsets",
       },
       {
         name: "description",
         content:
-          "Subvima is an open-source tunneling solution that exposes localhost servers to the internet. Supports HTTP, TCP, and UDP protocols with custom domains and real-time analytics.",
+          "SubVime helps you break big tasks into nested checklists with JSON import/export and real-time sync.",
       },
       {
         property: "og:title",
-        content: "Subvima - an open source alternative to ngrok",
+        content: "SubVime — Break complex tasks into simple subsets",
       },
       {
         property: "og:description",
         content:
-          "Subvima is an open-source tunneling solution that exposes localhost servers to the internet. Supports HTTP, TCP, and UDP protocols with custom domains and real-time analytics.",
+          "SubVime helps you break big tasks into nested checklists with JSON import/export and real-time sync.",
       },
       {
         property: "og:image",
-        content: "https://Subvima.dev/og.png",
+        content: "https://subvima.dev/og.png",
       },
       {
         property: "og:type",
@@ -56,7 +56,7 @@ export const Route = createRootRoute({
       },
       {
         property: "og:url",
-        content: "https://Subvima.dev",
+        content: "https://subvima.dev",
       },
       {
         name: "twitter:card",
@@ -64,16 +64,16 @@ export const Route = createRootRoute({
       },
       {
         name: "twitter:title",
-        content: "Subvima - an open source alternative to ngrok",
+        content: "SubVime — Break complex tasks into simple subsets",
       },
       {
         name: "twitter:description",
         content:
-          "Subvima is an open-source tunneling solution that exposes localhost servers to the internet. Supports HTTP, TCP, and UDP protocols with custom domains and real-time analytics.",
+          "SubVime helps you break big tasks into nested checklists with JSON import/export and real-time sync.",
       },
       {
         name: "twitter:image",
-        content: "https://Subvima.dev/og.png",
+        content: "https://subvima.dev/og.png",
       },
     ],
     links: [

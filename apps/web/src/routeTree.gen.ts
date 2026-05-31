@@ -28,11 +28,13 @@ import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as OrgSlugRouteImport } from './routes/$orgSlug'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as OrgSlugIndexRouteImport } from './routes/$orgSlug/index'
 import { Route as InvitationsAcceptRouteImport } from './routes/invitations.accept'
 import { Route as InternalDomainCheckRouteImport } from './routes/internal/domain-check'
 import { Route as DocsSplatRouteImport } from './routes/docs/$'
 import { Route as CliLoginRouteImport } from './routes/cli.login'
+import { Route as AppChecklistIdRouteImport } from './routes/app/$checklistId'
 import { Route as ApiSearchRouteImport } from './routes/api/search'
 import { Route as ApiHealthRouteImport } from './routes/api/health'
 import { Route as AdminTunnelsRouteImport } from './routes/admin/tunnels'
@@ -202,6 +204,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AppIndexRoute = AppIndexRouteImport.update({
+  id: '/app/',
+  path: '/app/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OrgSlugIndexRoute = OrgSlugIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -225,6 +232,11 @@ const DocsSplatRoute = DocsSplatRouteImport.update({
 const CliLoginRoute = CliLoginRouteImport.update({
   id: '/cli/login',
   path: '/cli/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppChecklistIdRoute = AppChecklistIdRouteImport.update({
+  id: '/app/$checklistId',
+  path: '/app/$checklistId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiSearchRoute = ApiSearchRouteImport.update({
@@ -643,11 +655,13 @@ export interface FileRoutesByFullPath {
   '/admin/tunnels': typeof AdminTunnelsRoute
   '/api/health': typeof ApiHealthRoute
   '/api/search': typeof ApiSearchRoute
+  '/app/$checklistId': typeof AppChecklistIdRoute
   '/cli/login': typeof CliLoginRoute
   '/docs/$': typeof DocsSplatRoute
   '/internal/domain-check': typeof InternalDomainCheckRoute
   '/invitations/accept': typeof InvitationsAcceptRoute
   '/$orgSlug/': typeof OrgSlugIndexRoute
+  '/app': typeof AppIndexRoute
   '/$orgSlug/settings/organization': typeof OrgSlugSettingsOrganizationRoute
   '/$orgSlug/settings/profile': typeof OrgSlugSettingsProfileRoute
   '/$orgSlug/tunnels/$tunnelId': typeof OrgSlugTunnelsTunnelIdRoute
@@ -740,11 +754,13 @@ export interface FileRoutesByTo {
   '/admin/tunnels': typeof AdminTunnelsRoute
   '/api/health': typeof ApiHealthRoute
   '/api/search': typeof ApiSearchRoute
+  '/app/$checklistId': typeof AppChecklistIdRoute
   '/cli/login': typeof CliLoginRoute
   '/docs/$': typeof DocsSplatRoute
   '/internal/domain-check': typeof InternalDomainCheckRoute
   '/invitations/accept': typeof InvitationsAcceptRoute
   '/$orgSlug': typeof OrgSlugIndexRoute
+  '/app': typeof AppIndexRoute
   '/$orgSlug/settings/organization': typeof OrgSlugSettingsOrganizationRoute
   '/$orgSlug/settings/profile': typeof OrgSlugSettingsProfileRoute
   '/$orgSlug/tunnels/$tunnelId': typeof OrgSlugTunnelsTunnelIdRoute
@@ -840,11 +856,13 @@ export interface FileRoutesById {
   '/admin/tunnels': typeof AdminTunnelsRoute
   '/api/health': typeof ApiHealthRoute
   '/api/search': typeof ApiSearchRoute
+  '/app/$checklistId': typeof AppChecklistIdRoute
   '/cli/login': typeof CliLoginRoute
   '/docs/$': typeof DocsSplatRoute
   '/internal/domain-check': typeof InternalDomainCheckRoute
   '/invitations/accept': typeof InvitationsAcceptRoute
   '/$orgSlug/': typeof OrgSlugIndexRoute
+  '/app/': typeof AppIndexRoute
   '/$orgSlug/settings/organization': typeof OrgSlugSettingsOrganizationRoute
   '/$orgSlug/settings/profile': typeof OrgSlugSettingsProfileRoute
   '/$orgSlug/tunnels/$tunnelId': typeof OrgSlugTunnelsTunnelIdRoute
@@ -941,11 +959,13 @@ export interface FileRouteTypes {
     | '/admin/tunnels'
     | '/api/health'
     | '/api/search'
+    | '/app/$checklistId'
     | '/cli/login'
     | '/docs/$'
     | '/internal/domain-check'
     | '/invitations/accept'
     | '/$orgSlug/'
+    | '/app'
     | '/$orgSlug/settings/organization'
     | '/$orgSlug/settings/profile'
     | '/$orgSlug/tunnels/$tunnelId'
@@ -1038,11 +1058,13 @@ export interface FileRouteTypes {
     | '/admin/tunnels'
     | '/api/health'
     | '/api/search'
+    | '/app/$checklistId'
     | '/cli/login'
     | '/docs/$'
     | '/internal/domain-check'
     | '/invitations/accept'
     | '/$orgSlug'
+    | '/app'
     | '/$orgSlug/settings/organization'
     | '/$orgSlug/settings/profile'
     | '/$orgSlug/tunnels/$tunnelId'
@@ -1137,11 +1159,13 @@ export interface FileRouteTypes {
     | '/admin/tunnels'
     | '/api/health'
     | '/api/search'
+    | '/app/$checklistId'
     | '/cli/login'
     | '/docs/$'
     | '/internal/domain-check'
     | '/invitations/accept'
     | '/$orgSlug/'
+    | '/app/'
     | '/$orgSlug/settings/organization'
     | '/$orgSlug/settings/profile'
     | '/$orgSlug/tunnels/$tunnelId'
@@ -1225,10 +1249,12 @@ export interface RootRouteChildren {
   ViteRoute: typeof ViteRoute
   ApiHealthRoute: typeof ApiHealthRoute
   ApiSearchRoute: typeof ApiSearchRoute
+  AppChecklistIdRoute: typeof AppChecklistIdRoute
   CliLoginRoute: typeof CliLoginRoute
   DocsSplatRoute: typeof DocsSplatRoute
   InternalDomainCheckRoute: typeof InternalDomainCheckRoute
   InvitationsAcceptRoute: typeof InvitationsAcceptRoute
+  AppIndexRoute: typeof AppIndexRoute
   ApiOrgSlugAuthTokensRoute: typeof ApiOrgSlugAuthTokensRoute
   ApiOrgSlugRequestsRoute: typeof ApiOrgSlugRequestsRouteWithChildren
   ApiOrgSlugSettingsRoute: typeof ApiOrgSlugSettingsRoute
@@ -1409,6 +1435,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/app/': {
+      id: '/app/'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/$orgSlug/': {
       id: '/$orgSlug/'
       path: '/'
@@ -1442,6 +1475,13 @@ declare module '@tanstack/react-router' {
       path: '/cli/login'
       fullPath: '/cli/login'
       preLoaderRoute: typeof CliLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app/$checklistId': {
+      id: '/app/$checklistId'
+      path: '/app/$checklistId'
+      fullPath: '/app/$checklistId'
+      preLoaderRoute: typeof AppChecklistIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/api/search': {
@@ -2129,10 +2169,12 @@ const rootRouteChildren: RootRouteChildren = {
   ViteRoute: ViteRoute,
   ApiHealthRoute: ApiHealthRoute,
   ApiSearchRoute: ApiSearchRoute,
+  AppChecklistIdRoute: AppChecklistIdRoute,
   CliLoginRoute: CliLoginRoute,
   DocsSplatRoute: DocsSplatRoute,
   InternalDomainCheckRoute: InternalDomainCheckRoute,
   InvitationsAcceptRoute: InvitationsAcceptRoute,
+  AppIndexRoute: AppIndexRoute,
   ApiOrgSlugAuthTokensRoute: ApiOrgSlugAuthTokensRoute,
   ApiOrgSlugRequestsRoute: ApiOrgSlugRequestsRouteWithChildren,
   ApiOrgSlugSettingsRoute: ApiOrgSlugSettingsRoute,

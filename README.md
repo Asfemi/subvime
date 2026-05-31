@@ -2,57 +2,63 @@
   <img alt="Vercel OSS Program" src="https://vercel.com/oss/program-badge.svg" />
 </a>
 
-# Subvima Web
+# SubVime
 
-Dashboard, API, and marketing site for Subvima — expose your localhost to the internet.
+Break complex tasks into nested subsets — a checklist app built on a repurposed UI shell.
+
+**Sub** + **vime** (Greek: a set of things)
 
 ## Features
 
-- **Dashboard** — Monitor traffic, view analytics, manage tunnels
-- **Team Support** — Organizations and role-based access
-- **Billing** — Polar and Paystack subscriptions
-- **Docs** — Product documentation (Fumadocs)
-- **Admin** — Internal admin panel
+- Create checklists from a task name and optional outline
+- Nested sub-steps with reorder, notes, add/remove
+- JSON import and export
+- Firebase Firestore sync (or localStorage fallback when Firebase is not configured)
 
 ## Quick Start
-
-### Prerequisites
-
-- Node.js 20+
-- PostgreSQL
-- Redis
-- Tiger Data / TimescaleDB (for analytics)
-
-### Setup
 
 ```bash
 npm install
 cd apps/web
 cp .env.example .env
-# Fill in your environment variables
-npm run db:migrate
 npm run dev
 ```
 
-The app runs at `http://localhost:3000` by default.
+Open **http://localhost:3000** (or the port Vite prints if 3000 is busy).
+
+### Routes
+
+| Route | Purpose |
+|-------|---------|
+| `/` | SubVime marketing landing (hero + features) |
+| `/app` | Create and list checklists |
+| `/app/:checklistId` | Edit a checklist (auto-save) |
+
+### Firebase (optional)
+
+Add your Firebase web config to `apps/web/.env`:
+
+```
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
+```
+
+Without these, checklists persist in the browser via `localStorage`.
 
 ## Project Structure
 
 ```
 subvima/
-└── apps/web/              # Dashboard, API, and marketing site
-    ├── src/
-    │   ├── components/    # UI components
-    │   ├── routes/        # Pages and API routes
-    │   ├── lib/           # Shared utilities
-    │   └── db/            # Drizzle schema and migrations
-    ├── content/docs/      # Documentation (MDX)
-    └── db/timescale/      # TimescaleDB setup and migrations
+└── apps/web/
+    ├── src/components/subvime/   # Checklist UI
+    ├── src/components/landing/     # Marketing shell (tunnel sections commented out)
+    ├── src/lib/firebase.ts         # Firestore + local fallback
+    └── src/routes/app/             # SubVime app routes
 ```
-
-## Environment Variables
-
-See [apps/web/.env.example](apps/web/.env.example) for the full list.
 
 ## License
 

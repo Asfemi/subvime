@@ -4,7 +4,7 @@ import { Landing } from "@/components/landing/Landing";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Subvima - Expose your local server to the internet" },
+      { title: "SubVime — Break complex tasks into simple subsets" },
     ],
   }),
   component: Landing,
