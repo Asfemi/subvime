@@ -20,6 +20,8 @@ function getPool(): pg.Pool {
   return tigerData;
 }
 
+export { getPool as tigerData };
+
 export async function query<T>(text: string, params?: unknown[]): Promise<T[]> {
   try {
     const result = await getPool().query(text, params);

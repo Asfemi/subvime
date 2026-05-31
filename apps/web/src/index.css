@@ -1,11 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Geom:300,regular,500,600,700,800,900,300italic,italic,500italic,600italic,700italic,800italic,900italic);
+@import "fumadocs-ui/style.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-/* Pre-built Fumadocs styles (no Tailwind v4 / lightningcss processing needed) */
-@import "fumadocs-ui/style.css";
 
 .dark,
 :root {
@@ -45,12 +43,10 @@ body {
   font-family: "Geom", sans-serif;
 }
 
-/* Safe area padding for mobile devices with notches */
 .safe-area-pb {
   padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
-/* Ensure interactive elements show pointer cursor */
 button:not(:disabled) {
   cursor: pointer;
 }
