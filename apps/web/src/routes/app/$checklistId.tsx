@@ -131,7 +131,10 @@ function ChecklistPage() {
           <p className="mb-6 text-sm text-white/40">{checklist.description}</p>
         )}
 
-        <ChecklistViewer steps={checklist.steps} onChange={handleStepsChange} />
+        <ChecklistViewer
+          steps={checklist.steps}
+          onChange={handleStepsChange}
+        />
       </main>
       <Footer />
     </div>

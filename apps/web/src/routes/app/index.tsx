@@ -1,14 +1,20 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { Navbar } from "@/components/landing/navbar";
 import { Footer } from "@/components/landing/shared";
 import { TaskInputForm } from "@/components/subvime/checklist-editor";
+import { FeaturedChecklistsSection } from "@/components/subvime/featured-checklists-section";
 import { LlmInstructionsPanel } from "@/components/subvime/llm-instructions-panel";
 import {
+  cloneChecklistFromTemplate,
   createChecklistId,
   generateStepsFromTaskInput,
   parseChecklistImport,
 } from "@/lib/checklist-utils";
+import {
+  featuredToSteps,
+  type FeaturedChecklist,
+} from "@/data/featured-checklists";
 import {
   ensureFirebaseUser,
   isFirebaseConfigured,
@@ -25,9 +31,11 @@ export const Route = createFileRoute("/app/")({
 });
 
 function AppHomePage() {
+  const navigate = useNavigate();
   const [userId, setUserId] = useState<string | null>(null);
   const [checklists, setChecklists] = useState<Checklist[]>([]);
   const [creating, setCreating] = useState(false);
+  const [usingFeaturedId, setUsingFeaturedId] = useState<string | null>(null);
   const [importError, setImportError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -84,13 +92,35 @@ function AppHomePage() {
     }
   };
 
+  const handleUseFeatured = async (featured: FeaturedChecklist) => {
+    if (!userId) return;
+    setUsingFeaturedId(featured.id);
+    try {
+      const checklist = cloneChecklistFromTemplate(
+        {
+          title: featured.title,
+          description: featured.description,
+          steps: featuredToSteps(featured),
+        },
+        userId,
+      );
+      await saveChecklist(checklist);
+      navigate({ to: "/app/$checklistId", params: { checklistId: checklist.id } });
+    } finally {
+      setUsingFeaturedId(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
       <main className="mx-auto max-w-xl px-6 pb-24 pt-28">
         <h1 className="mb-6 text-lg font-medium">Checklists</h1>
 
-        <div className="mb-8 space-y-3">
+        <FeaturedChecklistsSection onUse={handleUseFeatured} usingId={usingFeaturedId} />
+
+        <div className="mb-8 space-y-3 border-t border-white/5 pt-8">
+          <h2 className="text-sm font-medium text-white/80">Your checklists</h2>
           <LlmInstructionsPanel />
           <TaskInputForm onSubmit={handleCreate} isLoading={creating} />
           <label className="block cursor-pointer py-2 text-center text-xs text-white/40 hover:text-white/60">
@@ -110,7 +140,7 @@ function AppHomePage() {
         </div>
 
         {checklists.length === 0 ? (
-          <p className="py-8 text-center text-sm text-white/35">No checklists yet.</p>
+          <p className="py-4 text-center text-sm text-white/35">No personal checklists yet.</p>
         ) : (
           <ul className="divide-y divide-white/5 border-t border-white/5">
             {checklists.map((checklist) => (

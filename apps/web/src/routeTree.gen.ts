@@ -53,6 +53,7 @@ import { Route as AdminUsersIndexRouteImport } from './routes/admin/users.index'
 import { Route as AdminOrganizationsIndexRouteImport } from './routes/admin/organizations.index'
 import { Route as OrgSlugTunnelsIndexRouteImport } from './routes/$orgSlug/tunnels/index'
 import { Route as OrgSlugSettingsIndexRouteImport } from './routes/$orgSlug/settings/index'
+import { Route as AppFeaturedFeaturedIdRouteImport } from './routes/app/featured/$featuredId'
 import { Route as ApiWebhooksPolarRouteImport } from './routes/api/webhooks/polar'
 import { Route as ApiWebhooksPaystackRouteImport } from './routes/api/webhooks/paystack'
 import { Route as ApiTunnelRegisterRouteImport } from './routes/api/tunnel/register'
@@ -328,6 +329,11 @@ const OrgSlugSettingsIndexRoute = OrgSlugSettingsIndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => OrgSlugSettingsRoute,
+} as any)
+const AppFeaturedFeaturedIdRoute = AppFeaturedFeaturedIdRouteImport.update({
+  id: '/app/featured/$featuredId',
+  path: '/app/featured/$featuredId',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const ApiWebhooksPolarRoute = ApiWebhooksPolarRouteImport.update({
   id: '/api/webhooks/polar',
@@ -698,6 +704,7 @@ export interface FileRoutesByFullPath {
   '/api/tunnel/register': typeof ApiTunnelRegisterRoute
   '/api/webhooks/paystack': typeof ApiWebhooksPaystackRoute
   '/api/webhooks/polar': typeof ApiWebhooksPolarRoute
+  '/app/featured/$featuredId': typeof AppFeaturedFeaturedIdRoute
   '/$orgSlug/settings/': typeof OrgSlugSettingsIndexRoute
   '/$orgSlug/tunnels': typeof OrgSlugTunnelsIndexRoute
   '/admin/organizations': typeof AdminOrganizationsIndexRoute
@@ -797,6 +804,7 @@ export interface FileRoutesByTo {
   '/api/tunnel/register': typeof ApiTunnelRegisterRoute
   '/api/webhooks/paystack': typeof ApiWebhooksPaystackRoute
   '/api/webhooks/polar': typeof ApiWebhooksPolarRoute
+  '/app/featured/$featuredId': typeof AppFeaturedFeaturedIdRoute
   '/$orgSlug/settings': typeof OrgSlugSettingsIndexRoute
   '/$orgSlug/tunnels': typeof OrgSlugTunnelsIndexRoute
   '/admin/organizations': typeof AdminOrganizationsIndexRoute
@@ -899,6 +907,7 @@ export interface FileRoutesById {
   '/api/tunnel/register': typeof ApiTunnelRegisterRoute
   '/api/webhooks/paystack': typeof ApiWebhooksPaystackRoute
   '/api/webhooks/polar': typeof ApiWebhooksPolarRoute
+  '/app/featured/$featuredId': typeof AppFeaturedFeaturedIdRoute
   '/$orgSlug/settings/': typeof OrgSlugSettingsIndexRoute
   '/$orgSlug/tunnels/': typeof OrgSlugTunnelsIndexRoute
   '/admin/organizations/': typeof AdminOrganizationsIndexRoute
@@ -1002,6 +1011,7 @@ export interface FileRouteTypes {
     | '/api/tunnel/register'
     | '/api/webhooks/paystack'
     | '/api/webhooks/polar'
+    | '/app/featured/$featuredId'
     | '/$orgSlug/settings/'
     | '/$orgSlug/tunnels'
     | '/admin/organizations'
@@ -1101,6 +1111,7 @@ export interface FileRouteTypes {
     | '/api/tunnel/register'
     | '/api/webhooks/paystack'
     | '/api/webhooks/polar'
+    | '/app/featured/$featuredId'
     | '/$orgSlug/settings'
     | '/$orgSlug/tunnels'
     | '/admin/organizations'
@@ -1202,6 +1213,7 @@ export interface FileRouteTypes {
     | '/api/tunnel/register'
     | '/api/webhooks/paystack'
     | '/api/webhooks/polar'
+    | '/app/featured/$featuredId'
     | '/$orgSlug/settings/'
     | '/$orgSlug/tunnels/'
     | '/admin/organizations/'
@@ -1286,6 +1298,7 @@ export interface RootRouteChildren {
   ApiTunnelRegisterRoute: typeof ApiTunnelRegisterRoute
   ApiWebhooksPaystackRoute: typeof ApiWebhooksPaystackRoute
   ApiWebhooksPolarRoute: typeof ApiWebhooksPolarRoute
+  AppFeaturedFeaturedIdRoute: typeof AppFeaturedFeaturedIdRoute
   ApiOrgSlugDomainsDomainIdRoute: typeof ApiOrgSlugDomainsDomainIdRouteWithChildren
   ApiOrgSlugPortalPolarRoute: typeof ApiOrgSlugPortalPolarRoute
   ApiOrgSlugStatsBandwidthRoute: typeof ApiOrgSlugStatsBandwidthRoute
@@ -1609,6 +1622,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/$orgSlug/settings/'
       preLoaderRoute: typeof OrgSlugSettingsIndexRouteImport
       parentRoute: typeof OrgSlugSettingsRoute
+    }
+    '/app/featured/$featuredId': {
+      id: '/app/featured/$featuredId'
+      path: '/app/featured/$featuredId'
+      fullPath: '/app/featured/$featuredId'
+      preLoaderRoute: typeof AppFeaturedFeaturedIdRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/webhooks/polar': {
       id: '/api/webhooks/polar'
@@ -2206,6 +2226,7 @@ const rootRouteChildren: RootRouteChildren = {
   ApiTunnelRegisterRoute: ApiTunnelRegisterRoute,
   ApiWebhooksPaystackRoute: ApiWebhooksPaystackRoute,
   ApiWebhooksPolarRoute: ApiWebhooksPolarRoute,
+  AppFeaturedFeaturedIdRoute: AppFeaturedFeaturedIdRoute,
   ApiOrgSlugDomainsDomainIdRoute: ApiOrgSlugDomainsDomainIdRouteWithChildren,
   ApiOrgSlugPortalPolarRoute: ApiOrgSlugPortalPolarRoute,
   ApiOrgSlugStatsBandwidthRoute: ApiOrgSlugStatsBandwidthRoute,

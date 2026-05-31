@@ -128,6 +128,42 @@ function normalizeImportedSteps(steps: unknown[], depth = 0): ChecklistStep[] {
     });
 }
 
+/** Convert LLM `tasks` array into app checklist steps. */
+export function importTaskTree(tasks: unknown[]): ChecklistStep[] {
+  return normalizeImportedSteps(tasks);
+}
+
+export function countChecklistSteps(steps: ChecklistStep[]): number {
+  return steps.reduce(
+    (count, step) => count + 1 + countChecklistSteps(step.children),
+    0,
+  );
+}
+
+export function cloneChecklistFromTemplate(
+  template: Pick<Checklist, "title" | "description" | "steps">,
+  userId: string,
+): Checklist {
+  const cloneSteps = (items: ChecklistStep[]): ChecklistStep[] =>
+    items.map((step, index) => ({
+      ...step,
+      id: createStepId(),
+      completed: false,
+      order: index,
+      children: cloneSteps(step.children),
+    }));
+
+  return {
+    id: createChecklistId(),
+    title: template.title,
+    description: template.description,
+    steps: cloneSteps(template.steps),
+    createdAt: Date.now(),
+    updatedAt: Date.now(),
+    userId,
+  };
+}
+
 export function updateStepInTree(
   steps: ChecklistStep[],
   stepId: string,

@@ -5,20 +5,30 @@ import { isStepChecked, toggleStepCompleted } from "@/lib/checklist-utils";
 
 interface ChecklistViewerProps {
   steps: ChecklistStep[];
-  onChange: (steps: ChecklistStep[]) => void;
+  onChange?: (steps: ChecklistStep[]) => void;
+  readOnly?: boolean;
 }
 
-export function ChecklistViewer({ steps, onChange }: ChecklistViewerProps) {
+export function ChecklistViewer({ steps, onChange, readOnly = false }: ChecklistViewerProps) {
   if (steps.length === 0) {
     return <p className="py-8 text-center text-sm text-white/40">No items yet.</p>;
   }
 
-  const toggle = (stepId: string) => onChange(toggleStepCompleted(steps, stepId));
+  const toggle = (stepId: string) => {
+    if (readOnly || !onChange) return;
+    onChange(toggleStepCompleted(steps, stepId));
+  };
 
   return (
     <ul className="divide-y divide-white/5">
       {steps.map((step) => (
-        <ChecklistItem key={step.id} step={step} depth={0} onToggle={toggle} />
+        <ChecklistItem
+          key={step.id}
+          step={step}
+          depth={0}
+          readOnly={readOnly}
+          onToggle={toggle}
+        />
       ))}
     </ul>
   );
@@ -27,13 +37,14 @@ export function ChecklistViewer({ steps, onChange }: ChecklistViewerProps) {
 interface ChecklistItemProps {
   step: ChecklistStep;
   depth: number;
+  readOnly: boolean;
   onToggle: (stepId: string) => void;
 }
 
-function ChecklistItem({ step, depth, onToggle }: ChecklistItemProps) {
+function ChecklistItem({ step, depth, readOnly, onToggle }: ChecklistItemProps) {
   const [open, setOpen] = useState(false);
   const hasChildren = step.children.length > 0;
-  const checked = isStepChecked(step);
+  const checked = readOnly ? false : isStepChecked(step);
   const pad = { paddingLeft: `${depth * 16 + 12}px`, paddingRight: 12 };
 
   if (!hasChildren) {
@@ -44,6 +55,7 @@ function ChecklistItem({ step, depth, onToggle }: ChecklistItemProps) {
           title={step.title}
           notes={step.notes}
           checked={checked}
+          readOnly={readOnly}
           onCheck={() => onToggle(step.id)}
         />
       </li>
@@ -53,21 +65,14 @@ function ChecklistItem({ step, depth, onToggle }: ChecklistItemProps) {
   return (
     <li>
       <div
-        className="flex items-start gap-3 py-3 transition-colors hover:bg-white/[0.02]"
+        className="flex items-start gap-3 py-3 transition-colors hover:bg-white/2"
         style={pad}
       >
-        <button
-          type="button"
+        <ChecklistCheckbox
+          checked={checked}
+          readOnly={readOnly}
           onClick={() => onToggle(step.id)}
-          aria-label={checked ? "Mark incomplete" : "Mark complete"}
-          className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${
-            checked
-              ? "border-accent bg-accent text-white"
-              : "border-white/25 bg-transparent hover:border-white/40"
-          }`}
-        >
-          {checked && <Check size={10} strokeWidth={3} />}
-        </button>
+        />
 
         <button
           type="button"
@@ -97,11 +102,45 @@ function ChecklistItem({ step, depth, onToggle }: ChecklistItemProps) {
       {open && (
         <ul className="divide-y divide-white/5 border-t border-white/5">
           {step.children.map((child) => (
-            <ChecklistItem key={child.id} step={child} depth={depth + 1} onToggle={onToggle} />
+            <ChecklistItem
+              key={child.id}
+              step={child}
+              depth={depth + 1}
+              readOnly={readOnly}
+              onToggle={onToggle}
+            />
           ))}
         </ul>
       )}
     </li>
+  );
+}
+
+function ChecklistCheckbox({
+  checked,
+  readOnly,
+  onClick,
+}: {
+  checked: boolean;
+  readOnly: boolean;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={readOnly ? undefined : onClick}
+      disabled={readOnly}
+      aria-label={checked ? "Completed" : "Not completed"}
+      className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${
+        readOnly
+          ? "cursor-default border-white/15 bg-transparent"
+          : checked
+            ? "border-accent bg-accent text-white"
+            : "border-white/25 bg-transparent hover:border-white/40"
+      }`}
+    >
+      {!readOnly && checked && <Check size={10} strokeWidth={3} />}
+    </button>
   );
 }
 
@@ -110,33 +149,22 @@ function ChecklistRow({
   title,
   notes,
   checked,
+  readOnly,
   onCheck,
 }: {
   style: CSSProperties;
   title: string;
   notes?: string;
   checked: boolean;
+  readOnly: boolean;
   onCheck: () => void;
 }) {
   return (
-    <label
-      className="flex cursor-pointer items-start gap-3 py-3 transition-colors hover:bg-white/[0.02]"
+    <div
+      className="flex items-start gap-3 py-3 transition-colors hover:bg-white/2"
       style={style}
     >
-      <button
-        type="button"
-        onClick={(e) => {
-          e.preventDefault();
-          onCheck();
-        }}
-        className={`mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded border transition-colors ${
-          checked
-            ? "border-accent bg-accent text-white"
-            : "border-white/25 bg-transparent hover:border-white/40"
-        }`}
-      >
-        {checked && <Check size={10} strokeWidth={3} />}
-      </button>
+      <ChecklistCheckbox checked={checked} readOnly={readOnly} onClick={onCheck} />
       <span className="min-w-0 flex-1">
         <span className={`text-sm ${checked ? "text-white/40 line-through" : "text-white/90"}`}>
           {title}
@@ -145,6 +173,6 @@ function ChecklistRow({
           <span className="mt-1 block whitespace-pre-wrap text-xs text-white/35">{notes}</span>
         )}
       </span>
-    </label>
+    </div>
   );
 }
