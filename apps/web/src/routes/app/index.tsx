@@ -114,48 +114,53 @@ function AppHomePage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
-      <main className="mx-auto max-w-xl px-6 pb-24 pt-28">
-        <h1 className="mb-6 text-lg font-medium">Checklists</h1>
+      <main className="mx-auto max-w-6xl px-4 pb-12 pt-20 sm:px-5">
+        <h1 className="mb-4 text-lg font-medium">Checklists</h1>
 
         <FeaturedChecklistsSection onUse={handleUseFeatured} usingId={usingFeaturedId} />
 
-        <div className="mb-8 space-y-3 border-t border-white/5 pt-8">
-          <h2 className="text-sm font-medium text-white/80">Your checklists</h2>
-          <LlmInstructionsPanel />
-          <TaskInputForm onSubmit={handleCreate} isLoading={creating} />
-          <label className="block cursor-pointer py-2 text-center text-xs text-white/40 hover:text-white/60">
-            Import JSON
-            <input
-              type="file"
-              accept="application/json,.json"
-              className="hidden"
-              onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) void handleImport(file);
-                e.target.value = "";
-              }}
-            />
-          </label>
-          {importError && <p className="text-xs text-red-400">{importError}</p>}
-        </div>
+        <div className="mb-6 grid gap-6 border-t border-white/5 pt-6 lg:grid-cols-[minmax(0,320px)_1fr] lg:items-start">
+          <div className="space-y-3">
+            <h2 className="text-sm font-medium text-white/80">New checklist</h2>
+            <LlmInstructionsPanel />
+            <TaskInputForm onSubmit={handleCreate} isLoading={creating} />
+            <label className="block cursor-pointer py-1 text-center text-xs text-white/40 hover:text-white/60">
+              Import JSON
+              <input
+                type="file"
+                accept="application/json,.json"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) void handleImport(file);
+                  e.target.value = "";
+                }}
+              />
+            </label>
+            {importError && <p className="text-xs text-red-400">{importError}</p>}
+          </div>
 
-        {checklists.length === 0 ? (
-          <p className="py-4 text-center text-sm text-white/35">No personal checklists yet.</p>
-        ) : (
-          <ul className="divide-y divide-white/5 border-t border-white/5">
-            {checklists.map((checklist) => (
-              <li key={checklist.id}>
-                <Link
-                  to="/app/$checklistId"
-                  params={{ checklistId: checklist.id }}
-                  className="block py-3 text-sm text-white/80 hover:text-white"
-                >
-                  {checklist.title}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
+          <div>
+            <h2 className="mb-3 text-sm font-medium text-white/80">Your checklists</h2>
+            {checklists.length === 0 ? (
+              <p className="py-2 text-sm text-white/35">No personal checklists yet.</p>
+            ) : (
+              <ul className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                {checklists.map((checklist) => (
+                  <li key={checklist.id}>
+                    <Link
+                      to="/app/$checklistId"
+                      params={{ checklistId: checklist.id }}
+                      className="block rounded-xl border border-white/5 bg-white/2 px-3 py-2.5 text-sm text-white/80 transition-colors hover:border-white/10 hover:bg-white/4 hover:text-white"
+                    >
+                      {checklist.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
       </main>
       <Footer />
     </div>

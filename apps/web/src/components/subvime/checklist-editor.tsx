@@ -12,7 +12,7 @@ export function TaskInputForm({ onSubmit, isLoading }: TaskInputFormProps) {
 
   return (
     <form
-      className="space-y-3 border-b border-white/5 pb-6"
+      className="space-y-3 border-b border-white/5 pb-4"
       onSubmit={(e) => {
         e.preventDefault();
         if (!title.trim()) return;
