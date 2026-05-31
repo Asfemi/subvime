@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { redis } from "../../../lib/redis";
 import { hashToken } from "../../../lib/hash";
-import { tigerData } from "../../../lib/timescale";
+import { query } from "../../../lib/timescale";
 
 export const Route = createFileRoute("/api/admin/stats")({
   server: {
@@ -48,7 +48,7 @@ export const Route = createFileRoute("/api/admin/stats")({
             break;
         }
 
-        const query = `
+        const queryText = `
           WITH times AS (
             SELECT generate_series(
               time_bucket($1::interval, NOW()) - ($1::interval * $2),
@@ -67,11 +67,11 @@ export const Route = createFileRoute("/api/admin/stats")({
         `;
 
         try {
-          const result = await tigerData.query(query, [
+          const rows = await query<{ time: string; active_tunnels: number }>(queryText, [
             `${intervalMinutes} minutes`,
             points,
           ]);
-          return Response.json(result.rows);
+          return Response.json(rows);
         } catch (error) {
           console.error("TimescaleDB query error:", error);
           return Response.json({ error: "Failed to fetch stats" }, { status: 500 });
