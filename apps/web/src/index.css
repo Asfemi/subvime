@@ -1,27 +1,14 @@
 @import url(https://fonts.googleapis.com/css?family=Geom:300,regular,500,600,700,800,900,300italic,italic,500italic,600italic,700italic,800italic,900italic);
-@import "tailwindcss";
-@import "fumadocs-ui/css/neutral.css";
-@import "fumadocs-ui/css/preset.css";
 
-@theme {
-  --font-family-sans: "Geom", sans-serif;
-  --color-accent: #8367c7;
-  --animate-fade-in: fade-in 0.5s ease-out;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-  @keyframes fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-}
+/* Pre-built Fumadocs styles (no Tailwind v4 / lightningcss processing needed) */
+@import "fumadocs-ui/style.css";
 
-/* Fumadocs dark theme with brand accent color */
-.dark, :root {
+.dark,
+:root {
   --color-fd-background: hsl(0, 0%, 0%);
   --color-fd-foreground: hsl(0, 0%, 100%);
   --color-fd-card: hsl(0, 0%, 4%);
@@ -42,8 +29,8 @@
   --color-fd-overlay: hsla(0, 0%, 0%, 0.5);
 }
 
-/* Sidebar styling for dark theme */
-.dark #nd-sidebar, #nd-sidebar {
+.dark #nd-sidebar,
+#nd-sidebar {
   --color-fd-background: hsl(0, 0%, 0%);
   --color-fd-muted: hsl(0, 0%, 8%);
   --color-fd-secondary: hsl(0, 0%, 10%);
@@ -53,8 +40,8 @@
 }
 
 body {
-  background-color: var(--color-fd-background);
-  color: var(--color-fd-foreground);
+  background-color: var(--color-fd-background, #000);
+  color: var(--color-fd-foreground, #fff);
   font-family: "Geom", sans-serif;
 }
 
@@ -68,17 +55,15 @@ button:not(:disabled) {
   cursor: pointer;
 }
 
-/* Disabled buttons should indicate they are not clickable */
 button:disabled {
   cursor: not-allowed;
 }
 
-/* Hide scrollbar while maintaining scroll functionality */
 .scrollbar-hide {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none; /* Chrome, Safari and Opera */
+  display: none;
 }

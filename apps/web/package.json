@@ -6,9 +6,6 @@
   "engines": {
     "node": "20.x"
   },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.55.1"
-  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -23,7 +20,6 @@
     "@polar-sh/tanstack-start": "^0.4.3",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.4.2",
-    "@tailwindcss/vite": "^4.1.18",
     "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-router": "^1.141.2",
     "@tanstack/react-start": "^1.141.2",
@@ -53,7 +49,6 @@
     "react-icons": "^5.5.0",
     "recharts": "^3.6.0",
     "sonner": "^2.0.7",
-    "tailwindcss": "^4.1.18",
     "three": "^0.182.0",
     "vite": "^7.2.4",
     "zeptomail": "^7.0.0",
@@ -67,12 +62,14 @@
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.1",
+    "autoprefixer": "^10.4.20",
     "drizzle-kit": "^0.31.8",
     "eslint": "^9.39.1",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
-    "rollup": "npm:@rollup/wasm-node@^4.55.1",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
     "tsx": "^4.21.0",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",

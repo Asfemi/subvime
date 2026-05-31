@@ -1,10 +1,5 @@
 {
-  "installCommand": "npm install --include=optional",
+  "installCommand": "npm install",
   "buildCommand": "npm run build",
-  "framework": null,
-  "build": {
-    "env": {
-      "NPM_CONFIG_INCLUDE": "optional"
-    }
-  }
+  "framework": null
 }
