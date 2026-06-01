@@ -40,7 +40,7 @@ export function ChecklistPreviewShell({
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
-      <main className="mx-auto max-w-3xl px-6 pb-12 pt-20">
+      <main className="mx-auto max-w-7xl px-6 pb-12 pt-20">
         <div className="mb-4 flex items-center justify-between text-xs text-white/35">
           <Link to={backHref} className="hover:text-white/60">
             {backLabel}

@@ -1,10 +1,12 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { X } from "lucide-react";
 import { Navbar } from "@/components/landing/navbar";
 import { Footer } from "@/components/landing/shared";
 import { ChecklistViewer } from "@/components/subvime/checklist-viewer";
-import { exportChecklistLlmJson } from "@/lib/checklist-utils";
+import { exportChecklistLlmJson, importTaskTree, updateStepInTree } from "@/lib/checklist-utils";
 import { FEATURED_CHECKLISTS } from "@/data/featured-checklists";
+import { LLM_JSON_INSTRUCTIONS } from "@/lib/llm-json-instructions";
 import {
   ensureFirebaseUser,
   isFirebaseConfigured,
@@ -28,6 +30,14 @@ function ChecklistPage() {
   const latestUpdatedAt = useRef(0);
   const skipNextSave = useRef(true);
   const checklistRef = useRef<Checklist | null>(null);
+  const [selectedBranch, setSelectedBranch] = useState<{
+    stepId: string;
+    title: string;
+    path: string[];
+  } | null>(null);
+  const [branchJson, setBranchJson] = useState("");
+  const [branchStatus, setBranchStatus] = useState<string | null>(null);
+  const [branchModalOpen, setBranchModalOpen] = useState(false);
 
   checklistRef.current = checklist;
 
@@ -108,6 +118,86 @@ function ChecklistPage() {
     URL.revokeObjectURL(url);
   };
 
+  const handleCopyTaskPrompt = async (stepId: string, taskTitle: string, path: string[]) => {
+    const parentChain = path.length > 1 ? path.slice(0, -1).join(" -> ") : "Top level task";
+    const fullPath = path.join(" -> ");
+    const prompt = `Main goal: ${checklist.title}
+Goal description: ${checklist.description ?? "No description provided."}
+
+Selected task: ${taskTitle}
+Parent chain: ${parentChain}
+Full path: ${fullPath}
+
+Please help me understand "${taskTitle}" in depth.
+Generate additional checklists (nested where necessary) that break this task down into clear, practical, beginner-friendly steps.
+Include key concepts, pitfalls to avoid, and an execution sequence I can follow.
+
+IMPORTANT:
+- Return JSON for THIS BRANCH ONLY (do not rewrite unrelated checklist branches).
+- Return only nested items for "${taskTitle}".
+- Keep output strictly machine-parseable.
+
+Return ONLY valid JSON that follows the SubVime format below.
+
+${LLM_JSON_INSTRUCTIONS}`;
+
+    await navigator.clipboard.writeText(prompt);
+  };
+
+  const handleSelectTask = (stepId: string, taskTitle: string, path: string[]) => {
+    setSelectedBranch({ stepId, title: taskTitle, path });
+    setBranchStatus(null);
+    setBranchModalOpen(true);
+  };
+
+  const handleApplyBranchJson = () => {
+    if (!selectedBranch || !branchJson.trim()) return;
+
+    try {
+      const parsed = JSON.parse(branchJson) as Record<string, unknown> | unknown[];
+      let branchStepsInput: unknown[] | null = null;
+
+      if (Array.isArray(parsed)) {
+        branchStepsInput = parsed;
+      } else if (parsed && typeof parsed === "object") {
+        const maybeTasks = (parsed as Record<string, unknown>).tasks;
+        const maybeSteps = (parsed as Record<string, unknown>).steps;
+        if (Array.isArray(maybeTasks)) {
+          branchStepsInput = maybeTasks;
+        } else if (Array.isArray(maybeSteps)) {
+          branchStepsInput = maybeSteps;
+        }
+      }
+
+      if (!branchStepsInput) {
+        throw new Error("Expected JSON with tasks/steps array (or root array).");
+      }
+
+      const branchChildren = importTaskTree(branchStepsInput);
+      setChecklist((current) => {
+        if (!current) return current;
+        const nextSteps = updateStepInTree(current.steps, selectedBranch.stepId, (step) => ({
+          ...step,
+          children: branchChildren,
+          completed: false,
+        }));
+
+        const next = { ...current, steps: nextSteps, updatedAt: Date.now() };
+        latestUpdatedAt.current = next.updatedAt;
+        return next;
+      });
+
+      setBranchStatus("Branch updated.");
+      setBranchJson("");
+    } catch (error) {
+      setBranchStatus(
+        error instanceof Error
+          ? `Could not apply JSON: ${error.message}`
+          : "Could not apply JSON.",
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
@@ -138,6 +228,10 @@ function ChecklistPage() {
               <ChecklistViewer
                 steps={checklist.steps}
                 onChange={handleStepsChange}
+                onCopyPrompt={(step, path) =>
+                  void handleCopyTaskPrompt(step.id, step.title, path)
+                }
+                onSelectTask={(step, path) => handleSelectTask(step.id, step.title, path)}
               />
             </div>
           </div>
@@ -165,6 +259,63 @@ function ChecklistPage() {
         </div>
       </main>
       <Footer />
+
+      {branchModalOpen && selectedBranch && (
+        <div
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+          onClick={() => setBranchModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-3xl rounded-2xl border border-white/10 bg-black shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b border-white/10 px-5 py-4">
+              <h2 className="text-base font-semibold text-white">Expand selected subtask</h2>
+              <button
+                type="button"
+                onClick={() => setBranchModalOpen(false)}
+                className="rounded-lg p-2 text-white/60 transition-colors hover:bg-white/5 hover:text-white"
+                aria-label="Close branch expansion modal"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <div className="max-h-[80vh] overflow-y-auto p-5">
+              <div className="rounded-xl border border-white/10 bg-black/30 p-3">
+                <p className="text-xs text-white/60">
+                  Target: <span className="text-white/85">{selectedBranch.title}</span>
+                </p>
+                <p className="mt-1 text-[11px] text-white/45">
+                  Path: {selectedBranch.path.join(" -> ")}
+                </p>
+                <p className="mt-2 text-xs text-white/45">
+                  Copy prompt from the task row, generate JSON with your LLM, then paste it below.
+                </p>
+                <textarea
+                  value={branchJson}
+                  onChange={(e) => {
+                    setBranchJson(e.target.value);
+                    setBranchStatus(null);
+                  }}
+                  rows={9}
+                  placeholder='Paste generated JSON branch here (tasks/steps array or root array).'
+                  className="mt-3 w-full resize-y rounded-lg border border-white/10 bg-black/40 p-2 text-xs text-white/85 placeholder:text-white/35 focus:border-white/25 focus:outline-none"
+                />
+                <button
+                  type="button"
+                  onClick={handleApplyBranchJson}
+                  disabled={!branchJson.trim()}
+                  className="mt-3 w-full rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-xs font-medium text-white/85 transition-colors hover:border-white/20 hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Apply JSON to selected branch
+                </button>
+                {branchStatus && <p className="mt-2 text-xs text-white/55">{branchStatus}</p>}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

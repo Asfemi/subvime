@@ -1,7 +1,7 @@
 import { c as createRouter, a as createRootRoute, b as createFileRoute, l as lazyRouteComponent, H as HeadContent, O as Outlet, S as Scripts } from "../_chunks/_libs/@tanstack/react-router.mjs";
 import { j as jsxRuntimeExports } from "../_libs/react.mjs";
 import { c as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./index.mjs";
-import { a as getAppBaseUrl, c as createSharedChecklistFromRequestBody, b as buildShareUrl, g as getSharedChecklist, d as countChecklistSteps, r as redis, i as importTaskTree } from "./shared-checklists-COUZ3Sy7.mjs";
+import { a as getAppBaseUrl, c as createSharedChecklistFromRequestBody, b as buildShareUrl, g as getSharedChecklist, d as countChecklistSteps, r as redis, i as importTaskTree } from "./shared-checklists-BBYnUnnc.mjs";
 import "../_chunks/_libs/@tanstack/router-core.mjs";
 import "../_chunks/_libs/@tanstack/history.mjs";
 import "../_libs/cookie-es.mjs";
@@ -59,7 +59,7 @@ import "buffer";
 import "../_libs/denque.mjs";
 import "../_chunks/_libs/redis-parser.mjs";
 import "string_decoder";
-const appCss = "/assets/index-B226ptd8.css";
+const appCss = "/assets/index-CmPu6Imo.css";
 const Route$a = createRootRoute({
   head: () => ({
     meta: [
@@ -108,7 +108,7 @@ const Route$7 = createFileRoute("/changelog")({
   }),
   component: lazyRouteComponent($$splitComponentImporter$5, "component")
 });
-const $$splitComponentImporter$4 = () => import("./index-BBp7txQq.mjs");
+const $$splitComponentImporter$4 = () => import("./index-bLMh312N.mjs");
 const Route$6 = createFileRoute("/")({
   head: () => ({
     meta: [{
@@ -117,7 +117,7 @@ const Route$6 = createFileRoute("/")({
   }),
   component: lazyRouteComponent($$splitComponentImporter$4, "component")
 });
-const $$splitComponentImporter$3 = () => import("./index-CUnknpkN.mjs");
+const $$splitComponentImporter$3 = () => import("./index-DFVXn73A.mjs");
 const Route$5 = createFileRoute("/app/")({
   head: () => ({
     meta: [{
@@ -138,7 +138,7 @@ var createSsrRpc = (functionId) => {
     [TSS_SERVER_FUNCTION]: true
   });
 };
-const $$splitComponentImporter$2 = () => import("./_shareId-AQ0hQhvw.mjs");
+const $$splitComponentImporter$2 = () => import("./_shareId-C9HVyuAh.mjs");
 const loadSharedChecklist = createServerFn({
   method: "GET"
 }).inputValidator((shareId) => shareId).handler(createSsrRpc("417dfdc82c6abd96da65bb8d9bf9b610ec5cbb2c68e139242b562aaf83b39e0b"));
@@ -182,7 +182,7 @@ const Route$4 = createFileRoute("/c/$shareId")({
   }),
   component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-const $$splitComponentImporter$1 = () => import("./_checklistId-BUkKEgQ_.mjs");
+const $$splitComponentImporter$1 = () => import("./_checklistId-J3AZh9mT.mjs");
 const Route$3 = createFileRoute("/app/$checklistId")({
   head: () => ({
     meta: [{
@@ -374,7 +374,7 @@ function getFeaturedChecklist(id) {
 function featuredToSteps(featured) {
   return importTaskTree(featured.tasks);
 }
-const $$splitComponentImporter = () => import("./_featuredId-DrNl4dlY.mjs");
+const $$splitComponentImporter = () => import("./_featuredId-CRBhfd_7.mjs");
 const Route$2 = createFileRoute("/app/featured/$featuredId")({
   head: ({
     params

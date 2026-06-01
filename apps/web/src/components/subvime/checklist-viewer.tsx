@@ -1,5 +1,5 @@
 import { useState, type CSSProperties } from "react";
-import { Check } from "lucide-react";
+import { Check, Copy, Crosshair } from "lucide-react";
 import type { ChecklistStep } from "@/types/checklist";
 import { isStepChecked, toggleStepCompleted } from "@/lib/checklist-utils";
 
@@ -7,9 +7,17 @@ interface ChecklistViewerProps {
   steps: ChecklistStep[];
   onChange?: (steps: ChecklistStep[]) => void;
   readOnly?: boolean;
+  onCopyPrompt?: (step: ChecklistStep, path: string[]) => void;
+  onSelectTask?: (step: ChecklistStep, path: string[]) => void;
 }
 
-export function ChecklistViewer({ steps, onChange, readOnly = false }: ChecklistViewerProps) {
+export function ChecklistViewer({
+  steps,
+  onChange,
+  readOnly = false,
+  onCopyPrompt,
+  onSelectTask,
+}: ChecklistViewerProps) {
   if (steps.length === 0) {
     return <p className="py-8 text-center text-sm text-white/40">No items yet.</p>;
   }
@@ -26,8 +34,11 @@ export function ChecklistViewer({ steps, onChange, readOnly = false }: Checklist
           key={step.id}
           step={step}
           depth={0}
+          ancestry={[]}
           readOnly={readOnly}
           onToggle={toggle}
+          onCopyPrompt={onCopyPrompt}
+          onSelectTask={onSelectTask}
         />
       ))}
     </ul>
@@ -37,26 +48,42 @@ export function ChecklistViewer({ steps, onChange, readOnly = false }: Checklist
 interface ChecklistItemProps {
   step: ChecklistStep;
   depth: number;
+  ancestry: string[];
   readOnly: boolean;
   onToggle: (stepId: string) => void;
+  onCopyPrompt?: (step: ChecklistStep, path: string[]) => void;
+  onSelectTask?: (step: ChecklistStep, path: string[]) => void;
 }
 
-function ChecklistItem({ step, depth, readOnly, onToggle }: ChecklistItemProps) {
+function ChecklistItem({
+  step,
+  depth,
+  ancestry,
+  readOnly,
+  onToggle,
+  onCopyPrompt,
+  onSelectTask,
+}: ChecklistItemProps) {
   const [open, setOpen] = useState(false);
   const hasChildren = step.children.length > 0;
   const checked = readOnly ? false : isStepChecked(step);
   const pad = { paddingLeft: `${depth * 16 + 12}px`, paddingRight: 12 };
+  const currentPath = [...ancestry, step.title];
 
   if (!hasChildren) {
     return (
       <li>
         <ChecklistRow
           style={pad}
+          step={step}
+          path={currentPath}
           title={step.title}
           notes={step.notes}
           checked={checked}
           readOnly={readOnly}
           onCheck={() => onToggle(step.id)}
+          onCopyPrompt={onCopyPrompt}
+          onSelectTask={onSelectTask}
         />
       </li>
     );
@@ -65,7 +92,7 @@ function ChecklistItem({ step, depth, readOnly, onToggle }: ChecklistItemProps) 
   return (
     <li>
       <div
-        className="flex items-start gap-3 py-3 transition-colors hover:bg-white/2"
+        className="group flex items-start gap-3 py-3 transition-colors hover:bg-white/2"
         style={pad}
       >
         <ChecklistCheckbox
@@ -89,6 +116,27 @@ function ChecklistItem({ step, depth, readOnly, onToggle }: ChecklistItemProps) 
           )}
         </button>
 
+        {onCopyPrompt && (
+          <button
+            type="button"
+            onClick={() => onCopyPrompt(step, currentPath)}
+            className="mt-0.5 shrink-0 rounded border border-white/10 p-1.5 text-white/45 opacity-0 transition-all hover:border-white/20 hover:text-white/80 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+            aria-label="Copy task prompt"
+          >
+            <Copy className="h-3.5 w-3.5" />
+          </button>
+        )}
+        {onSelectTask && (
+          <button
+            type="button"
+            onClick={() => onSelectTask(step, currentPath)}
+            className="mt-0.5 shrink-0 rounded border border-white/10 p-1.5 text-white/45 opacity-0 transition-all hover:border-white/20 hover:text-white/80 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+            aria-label="Select task for branch expansion"
+          >
+            <Crosshair className="h-3.5 w-3.5" />
+          </button>
+        )}
+
         <button
           type="button"
           onClick={() => setOpen((v) => !v)}
@@ -106,8 +154,10 @@ function ChecklistItem({ step, depth, readOnly, onToggle }: ChecklistItemProps) 
               key={child.id}
               step={child}
               depth={depth + 1}
+              ancestry={currentPath}
               readOnly={readOnly}
               onToggle={onToggle}
+              onCopyPrompt={onCopyPrompt}
             />
           ))}
         </ul>
@@ -146,22 +196,30 @@ function ChecklistCheckbox({
 
 function ChecklistRow({
   style,
+  step,
+  path,
   title,
   notes,
   checked,
   readOnly,
   onCheck,
+  onCopyPrompt,
+  onSelectTask,
 }: {
   style: CSSProperties;
+  step: ChecklistStep;
+  path: string[];
   title: string;
   notes?: string;
   checked: boolean;
   readOnly: boolean;
   onCheck: () => void;
+  onCopyPrompt?: (step: ChecklistStep, path: string[]) => void;
+  onSelectTask?: (step: ChecklistStep, path: string[]) => void;
 }) {
   return (
     <div
-      className="flex items-start gap-3 py-3 transition-colors hover:bg-white/2"
+      className="group flex items-start gap-3 py-3 transition-colors hover:bg-white/2"
       style={style}
     >
       <ChecklistCheckbox checked={checked} readOnly={readOnly} onClick={onCheck} />
@@ -173,6 +231,26 @@ function ChecklistRow({
           <span className="mt-1 block whitespace-pre-wrap text-xs text-white/35">{notes}</span>
         )}
       </span>
+      {onCopyPrompt && (
+        <button
+          type="button"
+          onClick={() => onCopyPrompt(step, path)}
+          className="mt-0.5 shrink-0 rounded border border-white/10 p-1.5 text-white/45 opacity-0 transition-all hover:border-white/20 hover:text-white/80 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+          aria-label="Copy task prompt"
+        >
+          <Copy className="h-3.5 w-3.5" />
+        </button>
+      )}
+      {onSelectTask && (
+        <button
+          type="button"
+          onClick={() => onSelectTask(step, path)}
+          className="mt-0.5 shrink-0 rounded border border-white/10 p-1.5 text-white/45 opacity-0 transition-all hover:border-white/20 hover:text-white/80 group-hover:opacity-100 focus:opacity-100 focus:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+          aria-label="Select task for branch expansion"
+        >
+          <Crosshair className="h-3.5 w-3.5" />
+        </button>
+      )}
     </div>
   );
 }

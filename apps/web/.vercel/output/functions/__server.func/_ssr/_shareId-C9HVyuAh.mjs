@@ -1,11 +1,10 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
-import { u as useNavigate, L as Link } from "../_chunks/_libs/@tanstack/react-router.mjs";
-import { N as Navbar, F as Footer } from "./Footer-Nu2zCevV.mjs";
-import { C as ChecklistPreviewShell } from "./checklist-preview-shell-Cv4pbE-n.mjs";
+import { u as useNavigate } from "../_chunks/_libs/@tanstack/react-router.mjs";
+import { C as ChecklistPreviewShell } from "./checklist-preview-shell-CNvmfokM.mjs";
 import { B as Badge } from "./badge-CBjMOr_d.mjs";
-import { d as countChecklistSteps, h as cloneChecklistFromTemplate } from "./shared-checklists-COUZ3Sy7.mjs";
-import { b as Route$2, g as getFeaturedChecklist, f as featuredToSteps } from "./router-CatMXH2H.mjs";
+import { d as countChecklistSteps, h as cloneChecklistFromTemplate } from "./shared-checklists-BBYnUnnc.mjs";
 import { i as isFirebaseConfigured, e as ensureFirebaseUser, a as saveChecklist } from "./firebase-CNUkDlD_.mjs";
+import { R as Route$4 } from "./router-BqhhCnjO.mjs";
 import "../_chunks/_libs/@grpc/grpc-js.mjs";
 import "process";
 import "tls";
@@ -46,8 +45,9 @@ import "../_chunks/_libs/react-dom.mjs";
 import "crypto";
 import "async_hooks";
 import "../_libs/isbot.mjs";
+import "./Footer-Nu2zCevV.mjs";
 import "../_libs/lucide-react.mjs";
-import "./checklist-viewer-CkZPjK-8.mjs";
+import "./checklist-viewer-CouMPSBx.mjs";
 import "./input-CSALrFrJ.mjs";
 import "../_chunks/_libs/ioredis.mjs";
 import "../_chunks/_libs/@ioredis/commands.mjs";
@@ -62,11 +62,6 @@ import "buffer";
 import "../_libs/denque.mjs";
 import "../_chunks/_libs/redis-parser.mjs";
 import "string_decoder";
-import "./index.mjs";
-import "node:async_hooks";
-import "../_libs/h3-v2.mjs";
-import "../_libs/rou3.mjs";
-import "../_libs/srvx.mjs";
 import "../_chunks/_libs/@firebase/auth.mjs";
 import "../_chunks/_libs/@firebase/app.mjs";
 import "../_chunks/_libs/@firebase/component.mjs";
@@ -75,33 +70,24 @@ import "../_chunks/_libs/@firebase/logger.mjs";
 import "../_libs/idb.mjs";
 import "../_chunks/_libs/@firebase/firestore.mjs";
 import "../_chunks/_libs/@firebase/webchannel-wrapper.mjs";
-function FeaturedPreviewPage() {
-  const {
-    featuredId
-  } = Route$2.useParams();
+import "./index.mjs";
+import "node:async_hooks";
+import "../_libs/h3-v2.mjs";
+import "../_libs/rou3.mjs";
+import "../_libs/srvx.mjs";
+function SharedChecklistPage() {
+  const record = Route$4.useLoaderData();
   const navigate = useNavigate();
-  const featured = getFeaturedChecklist(featuredId);
-  const [steps, setSteps] = reactExports.useState(() => featured ? featuredToSteps(featured) : []);
-  const [adding, setAdding] = reactExports.useState(false);
-  if (!featured) {
-    return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-h-screen bg-black text-white", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "mx-auto max-w-3xl px-6 py-32 text-center text-sm text-white/40", children: [
-        "Checklist not found.",
-        " ",
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", className: "text-accent hover:underline", children: "Go back" })
-      ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {})
-    ] });
-  }
+  const [steps, setSteps] = reactExports.useState(() => record.steps);
+  const [saving, setSaving] = reactExports.useState(false);
   const stepCount = countChecklistSteps(steps);
-  const handleUse = async () => {
-    setAdding(true);
+  const handleSave = async () => {
+    setSaving(true);
     try {
       const userId = isFirebaseConfigured ? await ensureFirebaseUser() : "local-user";
       const checklist = cloneChecklistFromTemplate({
-        title: featured.title,
-        description: featured.description,
+        title: record.title,
+        description: record.description,
         steps
       }, userId, {
         preserveCompletion: true
@@ -114,20 +100,14 @@ function FeaturedPreviewPage() {
         }
       });
     } finally {
-      setAdding(false);
+      setSaving(false);
     }
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsx(ChecklistPreviewShell, { backHref: "/app", metaRight: /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
     stepCount,
     " steps"
-  ] }), badges: /* @__PURE__ */ jsxRuntimeExports.jsxs(jsxRuntimeExports.Fragment, { children: [
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "accent", size: "sm", children: "Featured" }),
-    /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "default", size: "sm", children: featured.category })
-  ] }), title: featured.title, description: featured.description, subtitle: /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-1 text-xs text-white/30", children: [
-    "by ",
-    featured.author
-  ] }), steps, onStepsChange: setSteps, primaryActionLabel: "Add to my checklists", onPrimaryAction: handleUse, primaryActionLoading: adding });
+  ] }), badges: /* @__PURE__ */ jsxRuntimeExports.jsx(jsxRuntimeExports.Fragment, { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Badge, { variant: "accent", size: "sm", children: "AI preview" }) }), title: record.title, description: record.description, subtitle: /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-xs text-white/30", children: "Try the checklist below, then save it to keep your progress." }), steps, onStepsChange: setSteps, primaryActionLabel: "Save to my checklists", onPrimaryAction: handleSave, primaryActionLoading: saving });
 }
 export {
-  FeaturedPreviewPage as component
+  SharedChecklistPage as component
 };

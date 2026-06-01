@@ -247,5 +247,6 @@ export {
   isStepChecked as k,
   parseChecklistImport as p,
   redis as r,
-  toggleStepCompleted as t
+  toggleStepCompleted as t,
+  updateStepInTree as u
 };
