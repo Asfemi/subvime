@@ -1,5 +1,5 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
-import { b as LoaderCircle } from "../_libs/lucide-react.mjs";
+import { e as LoaderCircle } from "../_libs/lucide-react.mjs";
 const variantStyles = {
   primary: "bg-white text-black hover:bg-gray-200 shadow-lg shadow-white/5",
   secondary: "bg-white/5 hover:bg-white/10 text-white border border-white/5 hover:border-white/10",

@@ -1,7 +1,7 @@
 import { c as createRouter, a as createRootRoute, b as createFileRoute, l as lazyRouteComponent, H as HeadContent, O as Outlet, S as Scripts } from "../_chunks/_libs/@tanstack/react-router.mjs";
 import { j as jsxRuntimeExports } from "../_libs/react.mjs";
 import { c as createServerFn, T as TSS_SERVER_FUNCTION, g as getServerFnById } from "./index.mjs";
-import { a as getAppBaseUrl, c as createSharedChecklistFromRequestBody, b as buildShareUrl, g as getSharedChecklist, d as countChecklistSteps, r as redis, i as importTaskTree } from "./shared-checklists-BJQo8yU4.mjs";
+import { a as getAppBaseUrl, c as createSharedChecklistFromRequestBody, b as buildShareUrl, g as getSharedChecklist, d as countChecklistSteps, r as redis, i as importTaskTree } from "./shared-checklists-COUZ3Sy7.mjs";
 import "../_chunks/_libs/@tanstack/router-core.mjs";
 import "../_chunks/_libs/@tanstack/history.mjs";
 import "../_libs/cookie-es.mjs";
@@ -59,8 +59,8 @@ import "buffer";
 import "../_libs/denque.mjs";
 import "../_chunks/_libs/redis-parser.mjs";
 import "string_decoder";
-const appCss = "/assets/index-Dw4sWRvk.css";
-const Route$7 = createRootRoute({
+const appCss = "/assets/index-B226ptd8.css";
+const Route$a = createRootRoute({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
@@ -81,7 +81,34 @@ const Route$7 = createRootRoute({
     ] })
   ] })
 });
-const $$splitComponentImporter$4 = () => import("./index-Bhz2TuD2.mjs");
+const $$splitComponentImporter$7 = () => import("./pricing-C5GTDHRK.mjs");
+const Route$9 = createFileRoute("/pricing")({
+  head: () => ({
+    meta: [{
+      title: "SubVime — Pricing"
+    }]
+  }),
+  component: lazyRouteComponent($$splitComponentImporter$7, "component")
+});
+const $$splitComponentImporter$6 = () => import("./docs-CpVujQf9.mjs");
+const Route$8 = createFileRoute("/docs")({
+  head: () => ({
+    meta: [{
+      title: "SubVime — Docs"
+    }]
+  }),
+  component: lazyRouteComponent($$splitComponentImporter$6, "component")
+});
+const $$splitComponentImporter$5 = () => import("./changelog-BvD4ArwZ.mjs");
+const Route$7 = createFileRoute("/changelog")({
+  head: () => ({
+    meta: [{
+      title: "SubVime — Changelog"
+    }]
+  }),
+  component: lazyRouteComponent($$splitComponentImporter$5, "component")
+});
+const $$splitComponentImporter$4 = () => import("./index-BBp7txQq.mjs");
 const Route$6 = createFileRoute("/")({
   head: () => ({
     meta: [{
@@ -90,7 +117,7 @@ const Route$6 = createFileRoute("/")({
   }),
   component: lazyRouteComponent($$splitComponentImporter$4, "component")
 });
-const $$splitComponentImporter$3 = () => import("./index-BspRq40D.mjs");
+const $$splitComponentImporter$3 = () => import("./index-CUnknpkN.mjs");
 const Route$5 = createFileRoute("/app/")({
   head: () => ({
     meta: [{
@@ -111,7 +138,7 @@ var createSsrRpc = (functionId) => {
     [TSS_SERVER_FUNCTION]: true
   });
 };
-const $$splitComponentImporter$2 = () => import("./_shareId-BguAj0pu.mjs");
+const $$splitComponentImporter$2 = () => import("./_shareId-AQ0hQhvw.mjs");
 const loadSharedChecklist = createServerFn({
   method: "GET"
 }).inputValidator((shareId) => shareId).handler(createSsrRpc("417dfdc82c6abd96da65bb8d9bf9b610ec5cbb2c68e139242b562aaf83b39e0b"));
@@ -155,7 +182,7 @@ const Route$4 = createFileRoute("/c/$shareId")({
   }),
   component: lazyRouteComponent($$splitComponentImporter$2, "component")
 });
-const $$splitComponentImporter$1 = () => import("./_checklistId-DgzcxZJB.mjs");
+const $$splitComponentImporter$1 = () => import("./_checklistId-BUkKEgQ_.mjs");
 const Route$3 = createFileRoute("/app/$checklistId")({
   head: () => ({
     meta: [{
@@ -347,7 +374,7 @@ function getFeaturedChecklist(id) {
 function featuredToSteps(featured) {
   return importTaskTree(featured.tasks);
 }
-const $$splitComponentImporter = () => import("./_featuredId-BK9xWFCd.mjs");
+const $$splitComponentImporter = () => import("./_featuredId-DrNl4dlY.mjs");
 const Route$2 = createFileRoute("/app/featured/$featuredId")({
   head: ({
     params
@@ -607,35 +634,50 @@ function toLlmTask(step) {
     tasks: step.children.map(toLlmTask)
   };
 }
+const PricingRoute = Route$9.update({
+  id: "/pricing",
+  path: "/pricing",
+  getParentRoute: () => Route$a
+});
+const DocsRoute = Route$8.update({
+  id: "/docs",
+  path: "/docs",
+  getParentRoute: () => Route$a
+});
+const ChangelogRoute = Route$7.update({
+  id: "/changelog",
+  path: "/changelog",
+  getParentRoute: () => Route$a
+});
 const IndexRoute = Route$6.update({
   id: "/",
   path: "/",
-  getParentRoute: () => Route$7
+  getParentRoute: () => Route$a
 });
 const AppIndexRoute = Route$5.update({
   id: "/app/",
   path: "/app/",
-  getParentRoute: () => Route$7
+  getParentRoute: () => Route$a
 });
 const CShareIdRoute = Route$4.update({
   id: "/c/$shareId",
   path: "/c/$shareId",
-  getParentRoute: () => Route$7
+  getParentRoute: () => Route$a
 });
 const AppChecklistIdRoute = Route$3.update({
   id: "/app/$checklistId",
   path: "/app/$checklistId",
-  getParentRoute: () => Route$7
+  getParentRoute: () => Route$a
 });
 const AppFeaturedFeaturedIdRoute = Route$2.update({
   id: "/app/featured/$featuredId",
   path: "/app/featured/$featuredId",
-  getParentRoute: () => Route$7
+  getParentRoute: () => Route$a
 });
 const ApiChecklistsShareRoute = Route$1.update({
   id: "/api/checklists/share",
   path: "/api/checklists/share",
-  getParentRoute: () => Route$7
+  getParentRoute: () => Route$a
 });
 const ApiChecklistsShareShareIdRoute = Route.update({
   id: "/$shareId",
@@ -648,13 +690,16 @@ const ApiChecklistsShareRouteChildren = {
 const ApiChecklistsShareRouteWithChildren = ApiChecklistsShareRoute._addFileChildren(ApiChecklistsShareRouteChildren);
 const rootRouteChildren = {
   IndexRoute,
+  ChangelogRoute,
+  DocsRoute,
+  PricingRoute,
   AppChecklistIdRoute,
   CShareIdRoute,
   AppIndexRoute,
   ApiChecklistsShareRoute: ApiChecklistsShareRouteWithChildren,
   AppFeaturedFeaturedIdRoute
 };
-const routeTree = Route$7._addFileChildren(rootRouteChildren)._addFileTypes();
+const routeTree = Route$a._addFileChildren(rootRouteChildren)._addFileTypes();
 function getRouter() {
   const router2 = createRouter({
     routeTree,

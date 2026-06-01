@@ -27,8 +27,8 @@ const Navbar = () => {
             /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "hidden font-semibold text-white sm:inline", children: "SubVime" })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "hidden items-center gap-8 text-sm font-medium text-white/60 md:flex", children: [
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "transition-colors hover:text-white", children: "Home" }),
-            /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", className: "transition-colors hover:text-white", children: "App" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/pricing", className: "transition-colors hover:text-white", children: "Pricing" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/changelog", className: "transition-colors hover:text-white", children: "Changelog" })
           ] }),
           /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-4", children: [
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -36,7 +36,7 @@ const Navbar = () => {
               {
                 to: "/app",
                 className: "hidden rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-white/15 md:flex",
-                children: "Open app"
+                children: "Get started"
               }
             ),
             /* @__PURE__ */ jsxRuntimeExports.jsx(
@@ -52,8 +52,33 @@ const Navbar = () => {
           ] })
         ] }),
         mobileMenuOpen && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "border-t border-white/10 bg-black px-6 py-4 md:hidden", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex flex-col gap-2", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", onClick: () => setMobileMenuOpen(false), className: "py-3 text-lg text-white/80", children: "Home" }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", onClick: () => setMobileMenuOpen(false), className: "py-3 text-lg text-white/80", children: "App" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Link,
+            {
+              to: "/pricing",
+              onClick: () => setMobileMenuOpen(false),
+              className: "py-3 text-lg text-white/80",
+              children: "Pricing"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Link,
+            {
+              to: "/changelog",
+              onClick: () => setMobileMenuOpen(false),
+              className: "py-3 text-lg text-white/80",
+              children: "Changelog"
+            }
+          ),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
+            Link,
+            {
+              to: "/app",
+              onClick: () => setMobileMenuOpen(false),
+              className: "py-3 text-lg font-semibold text-white",
+              children: "Get started"
+            }
+          )
         ] }) })
       ]
     }
@@ -76,8 +101,33 @@ const Footer = () => {
     /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-white mb-4 text-sm", children: "Product" }),
       /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "space-y-2 text-sm text-white/40", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", className: "hover:text-white transition-colors", children: "Open app" }) }),
-        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/", className: "hover:text-white transition-colors", children: "Home" }) })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", className: "hover:text-white transition-colors", children: "Get started" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", className: "hover:text-white transition-colors", children: "Start a checklist" }) })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-white mb-4 text-sm", children: "Documentation" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "space-y-2 text-sm text-white/40", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/docs", className: "hover:text-white transition-colors", children: "Docs" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/docs#share", className: "hover:text-white transition-colors", children: "Sharing" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/docs#import-export", className: "hover:text-white transition-colors", children: "Import & export" }) })
+      ] })
+    ] }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "font-bold text-white mb-4 text-sm", children: "Resources" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("ul", { className: "space-y-2 text-sm text-white/40", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/changelog", className: "hover:text-white transition-colors", children: "Changelog" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/pricing", className: "hover:text-white transition-colors", children: "Pricing" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
+          "a",
+          {
+            href: "https://github.com/Asfemi/subvime",
+            target: "_blank",
+            rel: "noreferrer",
+            className: "hover:text-white transition-colors",
+            children: "GitHub"
+          }
+        ) })
       ] })
     ] })
   ] }) }) });

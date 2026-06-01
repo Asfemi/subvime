@@ -1,7 +1,7 @@
 import { j as jsxRuntimeExports } from "../_libs/react.mjs";
 import { L as Link } from "../_chunks/_libs/@tanstack/react-router.mjs";
-import { N as Navbar, F as Footer } from "./Footer-Bg8VSKcz.mjs";
-import { C as ChecklistViewer } from "./checklist-viewer-DqUAIPVa.mjs";
+import { N as Navbar, F as Footer } from "./Footer-Nu2zCevV.mjs";
+import { C as ChecklistViewer } from "./checklist-viewer-CkZPjK-8.mjs";
 import { B as Button } from "./input-CSALrFrJ.mjs";
 function ChecklistPreviewShell({
   backHref = "/app",
@@ -20,7 +20,7 @@ function ChecklistPreviewShell({
 }) {
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-h-screen bg-black text-white", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "mx-auto max-w-3xl px-4 pb-12 pt-20 sm:px-5", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "mx-auto max-w-3xl px-6 pb-12 pt-20", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-4 flex items-center justify-between text-xs text-white/35", children: [
         /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: backHref, className: "hover:text-white/60", children: backLabel }),
         metaRight

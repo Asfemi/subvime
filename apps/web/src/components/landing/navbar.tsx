@@ -35,11 +35,11 @@ export const Navbar = () => {
         </Link>
 
         <div className="hidden items-center gap-8 text-sm font-medium text-white/60 md:flex">
-          <Link to="/" className="transition-colors hover:text-white">
-            Home
+          <Link to="/pricing" className="transition-colors hover:text-white">
+            Pricing
           </Link>
-          <Link to="/app" className="transition-colors hover:text-white">
-            App
+          <Link to="/changelog" className="transition-colors hover:text-white">
+            Changelog
           </Link>
         </div>
 
@@ -48,7 +48,7 @@ export const Navbar = () => {
             to="/app"
             className="hidden rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-white/15 md:flex"
           >
-            Open app
+            Get started
           </Link>
 
           <button
@@ -65,11 +65,26 @@ export const Navbar = () => {
       {mobileMenuOpen && (
         <div className="border-t border-white/10 bg-black px-6 py-4 md:hidden">
           <div className="flex flex-col gap-2">
-            <Link to="/" onClick={() => setMobileMenuOpen(false)} className="py-3 text-lg text-white/80">
-              Home
+            <Link
+              to="/pricing"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-3 text-lg text-white/80"
+            >
+              Pricing
             </Link>
-            <Link to="/app" onClick={() => setMobileMenuOpen(false)} className="py-3 text-lg text-white/80">
-              App
+            <Link
+              to="/changelog"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-3 text-lg text-white/80"
+            >
+              Changelog
+            </Link>
+            <Link
+              to="/app"
+              onClick={() => setMobileMenuOpen(false)}
+              className="py-3 text-lg font-semibold text-white"
+            >
+              Get started
             </Link>
           </div>
         </div>

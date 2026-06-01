@@ -23,21 +23,63 @@ export const Footer = () => {
             <ul className="space-y-2 text-sm text-white/40">
               <li>
                 <Link to="/app" className="hover:text-white transition-colors">
-                  Open app
+                  Get started
                 </Link>
               </li>
               <li>
-                <Link to="/" className="hover:text-white transition-colors">
-                  Home
+                <Link to="/app" className="hover:text-white transition-colors">
+                  Start a checklist
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* --- Original tunnel footer columns (commented out) ---
-          Documentation, CLI Reference, Changelog, Pricing, GitHub,
-          Vite / Next.js / Express / NestJS plugin links, Terms, Privacy
-          --- end original footer --- */}
+          <div>
+            <h4 className="font-bold text-white mb-4 text-sm">Documentation</h4>
+            <ul className="space-y-2 text-sm text-white/40">
+              <li>
+                <Link to="/docs" className="hover:text-white transition-colors">
+                  Docs
+                </Link>
+              </li>
+              <li>
+                <Link to="/docs#share" className="hover:text-white transition-colors">
+                  Sharing
+                </Link>
+              </li>
+              <li>
+                <Link to="/docs#import-export" className="hover:text-white transition-colors">
+                  Import & export
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold text-white mb-4 text-sm">Resources</h4>
+            <ul className="space-y-2 text-sm text-white/40">
+              <li>
+                <Link to="/changelog" className="hover:text-white transition-colors">
+                  Changelog
+                </Link>
+              </li>
+              <li>
+                <Link to="/pricing" className="hover:text-white transition-colors">
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://github.com/Asfemi/subvime"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  GitHub
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
     </footer>

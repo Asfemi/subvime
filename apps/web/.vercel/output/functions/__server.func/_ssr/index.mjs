@@ -108,7 +108,7 @@ function getResponse() {
 }
 var HEADERS = { TSS_SHELL: "X-TSS_SHELL" };
 async function getStartManifest(matchedRoutes) {
-  const { tsrStartManifest } = await import("./_tanstack-start-manifest_v-CpGnNbeN.mjs");
+  const { tsrStartManifest } = await import("./_tanstack-start-manifest_v-BQLvnYOZ.mjs");
   const startManifest = tsrStartManifest();
   let routes = startManifest.routes;
   routes[rootRouteId];
@@ -130,7 +130,7 @@ async function getStartManifest(matchedRoutes) {
 const manifest = {
   "417dfdc82c6abd96da65bb8d9bf9b610ec5cbb2c68e139242b562aaf83b39e0b": {
     functionName: "loadSharedChecklist_createServerFn_handler",
-    importer: () => import("./_shareId-DlHa5dtH.mjs")
+    importer: () => import("./_shareId-DUR2qf4Q.mjs")
   }
 };
 async function getServerFnById(id, access) {
@@ -1360,7 +1360,7 @@ var getBaseManifest = getProdBaseManifest;
 var createEarlyHintsForRequest = createEarlyHintsCollector;
 async function loadEntries() {
   const [routerEntry, startEntry, pluginAdapters] = await Promise.all([
-    import("./router-LHZOSFRh.mjs").then((n) => n.r),
+    import("./router-CatMXH2H.mjs").then((n) => n.r),
     import("./start-HYkvq4Ni.mjs"),
     import("./empty-plugin-adapters-BFgPZ6_d.mjs")
   ]);

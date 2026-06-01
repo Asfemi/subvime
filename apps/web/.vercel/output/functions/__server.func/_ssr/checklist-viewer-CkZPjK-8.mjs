@@ -1,6 +1,6 @@
 import { j as jsxRuntimeExports, r as reactExports } from "../_libs/react.mjs";
-import { k as isStepChecked, t as toggleStepCompleted } from "./shared-checklists-BJQo8yU4.mjs";
-import { C as Check } from "../_libs/lucide-react.mjs";
+import { k as isStepChecked, t as toggleStepCompleted } from "./shared-checklists-COUZ3Sy7.mjs";
+import { f as Check } from "../_libs/lucide-react.mjs";
 function ChecklistViewer({ steps, onChange, readOnly = false }) {
   if (steps.length === 0) {
     return /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "py-8 text-center text-sm text-white/40", children: "No items yet." });

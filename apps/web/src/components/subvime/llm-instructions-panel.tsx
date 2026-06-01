@@ -26,7 +26,7 @@ export function LlmInstructionsPanel() {
   };
 
   return (
-    <div className="border-b border-white/5 pb-4">
+    <div className="pb-4">
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}

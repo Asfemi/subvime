@@ -4,6 +4,7 @@ import { Navbar } from "@/components/landing/navbar";
 import { Footer } from "@/components/landing/shared";
 import { ChecklistViewer } from "@/components/subvime/checklist-viewer";
 import { exportChecklistLlmJson } from "@/lib/checklist-utils";
+import { FEATURED_CHECKLISTS } from "@/data/featured-checklists";
 import {
   ensureFirebaseUser,
   isFirebaseConfigured,
@@ -90,7 +91,7 @@ function ChecklistPage() {
     return (
       <div className="min-h-screen bg-black text-white">
         <Navbar />
-        <main className="mx-auto max-w-xl px-6 py-32 text-center text-sm text-white/40">
+        <main className="mx-auto max-w-7xl px-6 py-32 text-center text-sm text-white/40">
           Loading...
         </main>
       </div>
@@ -110,31 +111,58 @@ function ChecklistPage() {
   return (
     <div className="min-h-screen bg-black text-white">
       <Navbar />
-      <main className="mx-auto max-w-xl px-6 pb-24 pt-28">
-        <div className="mb-6 flex items-center justify-between text-xs text-white/35">
-          <Link to="/app" className="hover:text-white/60">
-            ← Back
-          </Link>
-          <div className="flex items-center gap-3">
-            <span>
-              {saveState === "saving" && "Saving…"}
-              {saveState === "saved" && "Saved"}
-            </span>
-            <button type="button" onClick={handleExport} className="hover:text-white/60">
-              Export
-            </button>
+      <main className="mx-auto max-w-7xl px-6 pb-24 pt-28">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start">
+          <div>
+            <div className="mb-6 flex items-center justify-between text-xs text-white/35">
+              <Link to="/app" className="hover:text-white/60">
+                ← Back
+              </Link>
+              <div className="flex items-center gap-3">
+                <span>
+                  {saveState === "saving" && "Saving…"}
+                  {saveState === "saved" && "Saved"}
+                </span>
+                <button type="button" onClick={handleExport} className="hover:text-white/60">
+                  Export
+                </button>
+              </div>
+            </div>
+
+            <h1 className="mb-1 text-lg font-medium text-white">{checklist.title}</h1>
+            {checklist.description && (
+              <p className="mb-6 text-sm text-white/40">{checklist.description}</p>
+            )}
+
+            <div className="max-w-3xl">
+              <ChecklistViewer
+                steps={checklist.steps}
+                onChange={handleStepsChange}
+              />
+            </div>
           </div>
+
+          <aside className="rounded-2xl border border-white/10 bg-white/[0.02] p-4">
+            <h2 className="text-sm font-medium text-white/85">Recommended lists</h2>
+            <p className="mt-1 text-xs text-white/45">
+              Explore more checklists you can preview or add.
+            </p>
+            <ul className="mt-4 space-y-2">
+              {FEATURED_CHECKLISTS.slice(0, 6).map((item) => (
+                <li key={item.id}>
+                  <Link
+                    to="/app/featured/$featuredId"
+                    params={{ featuredId: item.id }}
+                    className="block rounded-xl border border-white/5 bg-black/20 p-3 transition-colors hover:border-white/10 hover:bg-white/[0.04]"
+                  >
+                    <p className="text-sm font-medium text-white/90">{item.title}</p>
+                    <p className="mt-1 text-xs text-white/45">{item.category}</p>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </aside>
         </div>
-
-        <h1 className="mb-1 text-lg font-medium text-white">{checklist.title}</h1>
-        {checklist.description && (
-          <p className="mb-6 text-sm text-white/40">{checklist.description}</p>
-        )}
-
-        <ChecklistViewer
-          steps={checklist.steps}
-          onChange={handleStepsChange}
-        />
       </main>
       <Footer />
     </div>

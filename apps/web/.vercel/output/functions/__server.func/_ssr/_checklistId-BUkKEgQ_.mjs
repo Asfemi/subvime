@@ -1,10 +1,10 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
 import { L as Link } from "../_chunks/_libs/@tanstack/react-router.mjs";
-import { N as Navbar, F as Footer } from "./Footer-Bg8VSKcz.mjs";
-import { C as ChecklistViewer } from "./checklist-viewer-DqUAIPVa.mjs";
-import { j as exportChecklistLlmJson } from "./shared-checklists-BJQo8yU4.mjs";
+import { N as Navbar, F as Footer } from "./Footer-Nu2zCevV.mjs";
+import { C as ChecklistViewer } from "./checklist-viewer-CkZPjK-8.mjs";
+import { j as exportChecklistLlmJson } from "./shared-checklists-COUZ3Sy7.mjs";
+import { a as Route$3, F as FEATURED_CHECKLISTS } from "./router-CatMXH2H.mjs";
 import { i as isFirebaseConfigured, e as ensureFirebaseUser, b as subscribeToChecklist, a as saveChecklist } from "./firebase-CNUkDlD_.mjs";
-import { a as Route$3 } from "./router-LHZOSFRh.mjs";
 import "../_chunks/_libs/@grpc/grpc-js.mjs";
 import "process";
 import "tls";
@@ -59,6 +59,11 @@ import "buffer";
 import "../_libs/denque.mjs";
 import "../_chunks/_libs/redis-parser.mjs";
 import "string_decoder";
+import "./index.mjs";
+import "node:async_hooks";
+import "../_libs/h3-v2.mjs";
+import "../_libs/rou3.mjs";
+import "../_libs/srvx.mjs";
 import "../_chunks/_libs/@firebase/auth.mjs";
 import "../_chunks/_libs/@firebase/app.mjs";
 import "../_chunks/_libs/@firebase/component.mjs";
@@ -67,11 +72,6 @@ import "../_chunks/_libs/@firebase/logger.mjs";
 import "../_libs/idb.mjs";
 import "../_chunks/_libs/@firebase/firestore.mjs";
 import "../_chunks/_libs/@firebase/webchannel-wrapper.mjs";
-import "./index.mjs";
-import "node:async_hooks";
-import "../_libs/h3-v2.mjs";
-import "../_libs/rou3.mjs";
-import "../_libs/srvx.mjs";
 function ChecklistPage() {
   const {
     checklistId
@@ -138,7 +138,7 @@ function ChecklistPage() {
   if (!checklist) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-h-screen bg-black text-white", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "mx-auto max-w-xl px-6 py-32 text-center text-sm text-white/40", children: "Loading..." })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "mx-auto max-w-7xl px-6 py-32 text-center text-sm text-white/40", children: "Loading..." })
     ] });
   }
   const handleExport = () => {
@@ -154,21 +154,33 @@ function ChecklistPage() {
   };
   return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-h-screen bg-black text-white", children: [
     /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
-    /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "mx-auto max-w-xl px-6 pb-24 pt-28", children: [
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 flex items-center justify-between text-xs text-white/35", children: [
-        /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", className: "hover:text-white/60", children: "← Back" }),
-        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
-          /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
-            saveState === "saving" && "Saving…",
-            saveState === "saved" && "Saved"
-          ] }),
-          /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: handleExport, className: "hover:text-white/60", children: "Export" })
-        ] })
+    /* @__PURE__ */ jsxRuntimeExports.jsx("main", { className: "mx-auto max-w-7xl px-6 pb-24 pt-28", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid gap-8 lg:grid-cols-[minmax(0,1fr)_320px] lg:items-start", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mb-6 flex items-center justify-between text-xs text-white/35", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", className: "hover:text-white/60", children: "← Back" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { children: [
+              saveState === "saving" && "Saving…",
+              saveState === "saved" && "Saved"
+            ] }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("button", { type: "button", onClick: handleExport, className: "hover:text-white/60", children: "Export" })
+          ] })
+        ] }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mb-1 text-lg font-medium text-white", children: checklist.title }),
+        checklist.description && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-6 text-sm text-white/40", children: checklist.description }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "max-w-3xl", children: /* @__PURE__ */ jsxRuntimeExports.jsx(ChecklistViewer, { steps: checklist.steps, onChange: handleStepsChange }) })
       ] }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx("h1", { className: "mb-1 text-lg font-medium text-white", children: checklist.title }),
-      checklist.description && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mb-6 text-sm text-white/40", children: checklist.description }),
-      /* @__PURE__ */ jsxRuntimeExports.jsx(ChecklistViewer, { steps: checklist.steps, onChange: handleStepsChange })
-    ] }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("aside", { className: "rounded-2xl border border-white/10 bg-white/[0.02] p-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-sm font-medium text-white/85", children: "Recommended lists" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-xs text-white/45", children: "Explore more checklists you can preview or add." }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("ul", { className: "mt-4 space-y-2", children: FEATURED_CHECKLISTS.slice(0, 6).map((item) => /* @__PURE__ */ jsxRuntimeExports.jsx("li", { children: /* @__PURE__ */ jsxRuntimeExports.jsxs(Link, { to: "/app/featured/$featuredId", params: {
+          featuredId: item.id
+        }, className: "block rounded-xl border border-white/5 bg-black/20 p-3 transition-colors hover:border-white/10 hover:bg-white/[0.04]", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-medium text-white/90", children: item.title }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-xs text-white/45", children: item.category })
+        ] }) }, item.id)) })
+      ] })
+    ] }) }),
     /* @__PURE__ */ jsxRuntimeExports.jsx(Footer, {})
   ] });
 }

@@ -1,10 +1,10 @@
 import { r as reactExports, j as jsxRuntimeExports } from "../_libs/react.mjs";
 import { u as useNavigate, L as Link } from "../_chunks/_libs/@tanstack/react-router.mjs";
-import { N as Navbar, F as Footer } from "./Footer-Bg8VSKcz.mjs";
-import { C as ChecklistPreviewShell } from "./checklist-preview-shell-CbZhifGu.mjs";
+import { N as Navbar, F as Footer } from "./Footer-Nu2zCevV.mjs";
+import { C as ChecklistPreviewShell } from "./checklist-preview-shell-Cv4pbE-n.mjs";
 import { B as Badge } from "./badge-CBjMOr_d.mjs";
-import { d as countChecklistSteps, e as cloneChecklistFromTemplate } from "./shared-checklists-BJQo8yU4.mjs";
-import { b as Route$2, g as getFeaturedChecklist, f as featuredToSteps } from "./router-LHZOSFRh.mjs";
+import { d as countChecklistSteps, h as cloneChecklistFromTemplate } from "./shared-checklists-COUZ3Sy7.mjs";
+import { b as Route$2, g as getFeaturedChecklist, f as featuredToSteps } from "./router-CatMXH2H.mjs";
 import { i as isFirebaseConfigured, e as ensureFirebaseUser, a as saveChecklist } from "./firebase-CNUkDlD_.mjs";
 import "../_chunks/_libs/@grpc/grpc-js.mjs";
 import "process";
@@ -47,7 +47,7 @@ import "crypto";
 import "async_hooks";
 import "../_libs/isbot.mjs";
 import "../_libs/lucide-react.mjs";
-import "./checklist-viewer-DqUAIPVa.mjs";
+import "./checklist-viewer-CkZPjK-8.mjs";
 import "./input-CSALrFrJ.mjs";
 import "../_chunks/_libs/ioredis.mjs";
 import "../_chunks/_libs/@ioredis/commands.mjs";
@@ -86,7 +86,7 @@ function FeaturedPreviewPage() {
   if (!featured) {
     return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "min-h-screen bg-black text-white", children: [
       /* @__PURE__ */ jsxRuntimeExports.jsx(Navbar, {}),
-      /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "mx-auto max-w-3xl px-4 py-32 text-center text-sm text-white/40", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("main", { className: "mx-auto max-w-3xl px-6 py-32 text-center text-sm text-white/40", children: [
         "Checklist not found.",
         " ",
         /* @__PURE__ */ jsxRuntimeExports.jsx(Link, { to: "/app", className: "text-accent hover:underline", children: "Go back" })

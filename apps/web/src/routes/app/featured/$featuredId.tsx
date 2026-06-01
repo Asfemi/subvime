@@ -50,7 +50,7 @@ function FeaturedPreviewPage() {
     return (
       <div className="min-h-screen bg-black text-white">
         <Navbar />
-        <main className="mx-auto max-w-3xl px-4 py-32 text-center text-sm text-white/40">
+        <main className="mx-auto max-w-3xl px-6 py-32 text-center text-sm text-white/40">
           Checklist not found.{" "}
           <Link to="/app" className="text-accent hover:underline">
             Go back

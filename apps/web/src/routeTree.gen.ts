@@ -9,6 +9,9 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as PricingRouteImport } from './routes/pricing'
+import { Route as DocsRouteImport } from './routes/docs'
+import { Route as ChangelogRouteImport } from './routes/changelog'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as CShareIdRouteImport } from './routes/c/$shareId'
@@ -17,6 +20,21 @@ import { Route as AppFeaturedFeaturedIdRouteImport } from './routes/app/featured
 import { Route as ApiChecklistsShareRouteImport } from './routes/api/checklists/share'
 import { Route as ApiChecklistsShareShareIdRouteImport } from './routes/api/checklists/share.$shareId'
 
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ChangelogRoute = ChangelogRouteImport.update({
+  id: '/changelog',
+  path: '/changelog',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -56,6 +74,9 @@ const ApiChecklistsShareShareIdRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/changelog': typeof ChangelogRoute
+  '/docs': typeof DocsRoute
+  '/pricing': typeof PricingRoute
   '/app/$checklistId': typeof AppChecklistIdRoute
   '/c/$shareId': typeof CShareIdRoute
   '/app/': typeof AppIndexRoute
@@ -65,6 +86,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/changelog': typeof ChangelogRoute
+  '/docs': typeof DocsRoute
+  '/pricing': typeof PricingRoute
   '/app/$checklistId': typeof AppChecklistIdRoute
   '/c/$shareId': typeof CShareIdRoute
   '/app': typeof AppIndexRoute
@@ -75,6 +99,9 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/changelog': typeof ChangelogRoute
+  '/docs': typeof DocsRoute
+  '/pricing': typeof PricingRoute
   '/app/$checklistId': typeof AppChecklistIdRoute
   '/c/$shareId': typeof CShareIdRoute
   '/app/': typeof AppIndexRoute
@@ -86,6 +113,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/changelog'
+    | '/docs'
+    | '/pricing'
     | '/app/$checklistId'
     | '/c/$shareId'
     | '/app/'
@@ -95,6 +125,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/changelog'
+    | '/docs'
+    | '/pricing'
     | '/app/$checklistId'
     | '/c/$shareId'
     | '/app'
@@ -104,6 +137,9 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/changelog'
+    | '/docs'
+    | '/pricing'
     | '/app/$checklistId'
     | '/c/$shareId'
     | '/app/'
@@ -114,6 +150,9 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ChangelogRoute: typeof ChangelogRoute
+  DocsRoute: typeof DocsRoute
+  PricingRoute: typeof PricingRoute
   AppChecklistIdRoute: typeof AppChecklistIdRoute
   CShareIdRoute: typeof CShareIdRoute
   AppIndexRoute: typeof AppIndexRoute
@@ -123,6 +162,27 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/changelog': {
+      id: '/changelog'
+      path: '/changelog'
+      fullPath: '/changelog'
+      preLoaderRoute: typeof ChangelogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -188,6 +248,9 @@ const ApiChecklistsShareRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ChangelogRoute: ChangelogRoute,
+  DocsRoute: DocsRoute,
+  PricingRoute: PricingRoute,
   AppChecklistIdRoute: AppChecklistIdRoute,
   CShareIdRoute: CShareIdRoute,
   AppIndexRoute: AppIndexRoute,

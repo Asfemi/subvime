@@ -9,13 +9,18 @@ import {
 } from "@/data/featured-checklists";
 
 interface FeaturedChecklistsSectionProps {
-  onUse: (featured: FeaturedChecklist) => void;
+  onUse?: (featured: FeaturedChecklist) => void;
   usingId?: string | null;
+  className?: string;
 }
 
-export function FeaturedChecklistsSection({ onUse, usingId }: FeaturedChecklistsSectionProps) {
+export function FeaturedChecklistsSection({
+  onUse,
+  usingId,
+  className,
+}: FeaturedChecklistsSectionProps) {
   return (
-    <section className="mb-6">
+    <section className={className ?? "mb-6"}>
       <div className="mb-3">
         <h2 className="text-sm font-medium text-white">Featured checklists</h2>
         <p className="mt-0.5 text-xs text-white/40">
@@ -54,15 +59,25 @@ export function FeaturedChecklistsSection({ onUse, usingId }: FeaturedChecklists
                   >
                     Preview
                   </Link>
-                  <button
-                    type="button"
-                    disabled={usingId === featured.id}
-                    onClick={() => onUse(featured)}
-                    className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 transition-colors hover:border-accent/30 hover:bg-accent/10 hover:text-white disabled:opacity-50"
-                  >
-                    {usingId === featured.id ? "Adding…" : "Use checklist"}
-                    <ArrowRight size={12} />
-                  </button>
+                  {onUse ? (
+                    <button
+                      type="button"
+                      disabled={usingId === featured.id}
+                      onClick={() => onUse(featured)}
+                      className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 transition-colors hover:border-accent/30 hover:bg-accent/10 hover:text-white disabled:opacity-50"
+                    >
+                      {usingId === featured.id ? "Adding…" : "Use checklist"}
+                      <ArrowRight size={12} />
+                    </button>
+                  ) : (
+                    <Link
+                      to="/app"
+                      className="ml-auto inline-flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-white/80 transition-colors hover:border-accent/30 hover:bg-accent/10 hover:text-white"
+                    >
+                      Start here
+                      <ArrowRight size={12} />
+                    </Link>
+                  )}
                 </div>
               </CardContent>
             </Card>
