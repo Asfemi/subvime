@@ -1,50 +1,12 @@
 @import url(https://fonts.googleapis.com/css?family=Geom:300,regular,500,600,700,800,900,300italic,italic,500italic,600italic,700italic,800italic,900italic);
-@import "fumadocs-ui/style.css";
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-.dark,
-:root {
-  --color-fd-background: hsl(0, 0%, 0%);
-  --color-fd-foreground: hsl(0, 0%, 100%);
-  --color-fd-card: hsl(0, 0%, 4%);
-  --color-fd-card-foreground: hsl(0, 0%, 100%);
-  --color-fd-popover: hsl(0, 0%, 6%);
-  --color-fd-popover-foreground: hsl(0, 0%, 100%);
-  --color-fd-primary: hsl(259, 47%, 59%);
-  --color-fd-primary-foreground: hsl(0, 0%, 100%);
-  --color-fd-secondary: hsl(0, 0%, 10%);
-  --color-fd-secondary-foreground: hsl(0, 0%, 100%);
-  --color-fd-muted: hsl(0, 0%, 10%);
-  --color-fd-muted-foreground: hsl(0, 0%, 65%);
-  --color-fd-accent: hsla(259, 47%, 59%, 0.15);
-  --color-fd-accent-foreground: hsl(0, 0%, 100%);
-  --color-fd-border: hsl(0, 0%, 15%);
-  --color-fd-input: hsl(0, 0%, 15%);
-  --color-fd-ring: hsl(259, 47%, 59%);
-  --color-fd-overlay: hsla(0, 0%, 0%, 0.5);
-}
-
-.dark #nd-sidebar,
-#nd-sidebar {
-  --color-fd-background: hsl(0, 0%, 0%);
-  --color-fd-muted: hsl(0, 0%, 8%);
-  --color-fd-secondary: hsl(0, 0%, 10%);
-  --color-fd-muted-foreground: hsl(0, 0%, 70%);
-  --color-fd-primary: hsl(259, 47%, 59%);
-  --color-fd-accent: hsla(259, 47%, 59%, 0.15);
-}
-
 body {
-  background-color: var(--color-fd-background, #000);
-  color: var(--color-fd-foreground, #fff);
+  @apply bg-black text-white antialiased;
   font-family: "Geom", sans-serif;
-}
-
-.safe-area-pb {
-  padding-bottom: env(safe-area-inset-bottom, 0);
 }
 
 button:not(:disabled) {

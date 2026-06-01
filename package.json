@@ -1,7 +1,7 @@
 {
   "name": "subvima",
-  "version": "1.0.0",
   "private": true,
+  "version": "1.0.0",
   "engines": {
     "node": "20.x"
   },
@@ -12,13 +12,8 @@
     "rollup": "npm:@rollup/wasm-node@4.55.1"
   },
   "scripts": {
-    "dev": "cd apps/web && npm run dev",
-    "build": "cd apps/web && npm run build",
-    "start": "cd apps/web && npm run start",
-    "lint": "cd apps/web && npm run lint",
-    "db:migrate": "cd apps/web && npm run db:migrate"
-  },
-  "devDependencies": {
-    "typescript": "^5.7.2"
+    "dev": "npm run dev -w subvima-web",
+    "build": "npm run build -w subvima-web",
+    "start": "npm run start -w subvima-web"
   }
 }

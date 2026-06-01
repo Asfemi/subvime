@@ -1,21 +1,14 @@
 import { ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { motion } from "motion/react";
-import { Canvas } from "@react-three/fiber";
-import { BeamGroup } from "./beam-group";
 
 export const Hero = () => {
   return (
-    <div className="relative min-h-screen flex flex-col justify-center items-center overflow-hidden pt-20">
-      <div className="absolute inset-0 z-0 md:-translate-x-[10%]">
-        <Canvas camera={{ position: [0, 0, 15], fov: 45 }}>
-          <color attach="background" args={["#000000"]} />
-          <BeamGroup />
-        </Canvas>
-      </div>
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden pt-20">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(131,103,199,0.15),_transparent_50%)]" />
 
-      <div className="flex flex-col gap-8 max-w-4xl mx-auto px-6 relative z-10 w-full items-center">
-        <div className="flex flex-col gap-6 items-center mt-20">
+      <div className="relative z-10 mx-auto flex w-full max-w-4xl flex-col items-center gap-8 px-6">
+        <div className="mt-20 flex flex-col items-center gap-6">
           <motion.p
             className="text-sm uppercase tracking-[0.25em] text-accent"
             initial={{ opacity: 0, y: -10 }}
@@ -26,7 +19,7 @@ export const Hero = () => {
           </motion.p>
 
           <motion.h1
-            className="text-5xl md:text-7xl font-bold text-center"
+            className="text-center text-5xl font-bold md:text-7xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
@@ -36,45 +29,37 @@ export const Hero = () => {
           </motion.h1>
 
           <motion.p
-            className="text-xl md:text-2xl text-center text-white/60 max-w-2xl leading-relaxed"
+            className="max-w-2xl text-center text-xl leading-relaxed text-white/60 md:text-2xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            SubVime helps you turn big goals like &quot;YouTube automation&quot; into nested
-            checklists you can reorder, annotate, import, export, and sync in real time.
+            Turn big goals like YouTube automation into nested checklists you can import,
+            export, share, and track.
           </motion.p>
         </div>
 
         <motion.div
-          className="flex flex-col sm:flex-row items-center gap-4 w-full justify-center"
+          className="flex w-full flex-col items-center justify-center gap-4 sm:flex-row"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           <Link
             to="/app"
-            className="group w-full sm:w-auto px-8 py-4 bg-white text-black hover:bg-gray-200 rounded-full font-bold text-lg transition-all flex items-center justify-center gap-2"
+            className="group flex w-full items-center justify-center gap-2 rounded-full bg-white px-8 py-4 text-lg font-bold text-black transition-all hover:bg-gray-200 sm:w-auto"
           >
             Start a checklist
-            <ArrowRight
-              size={20}
-              className="group-hover:translate-x-1 transition-transform"
-            />
+            <ArrowRight size={20} className="transition-transform group-hover:translate-x-1" />
           </Link>
           <Link
             to="/app"
-            className="w-full sm:w-auto px-8 py-4 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 hover:border-accent/40 text-white/80 hover:text-white font-medium transition-all text-center"
+            className="w-full rounded-full border border-white/10 bg-white/5 px-8 py-4 text-center font-medium text-white/80 transition-all hover:border-accent/40 hover:bg-white/10 hover:text-white sm:w-auto"
           >
             Import JSON outline
           </Link>
         </motion.div>
       </div>
-
-      {/* --- Original tunnel / ngrok hero (commented out) ---
-      <Terminal />
-      Vercel OSS badge, "Expose your local server", npm install -g Subvima, streaming HTTP logs, etc.
-      --- end original hero --- */}
     </div>
   );
 };
